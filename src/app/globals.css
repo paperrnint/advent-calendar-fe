@@ -66,3 +66,20 @@ body {
   color: var(--foreground);
   font-family: var(--font-pretendard), Arial, Helvetica, sans-serif;
 }
+
+.dotted-lines-bg {
+  background-image:
+    repeating-linear-gradient(
+      transparent,
+      transparent 2em,
+      transparent 2em,
+      transparent calc(2em + 1px)
+    ),
+    radial-gradient(circle, var(--color-neutral-300) 0.5px, transparent 1px);
+  background-size:
+    100% 100%,
+    4px 2em;
+  background-position:
+    0 0,
+    0 2.9em;
+}
