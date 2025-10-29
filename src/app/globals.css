@@ -31,6 +31,9 @@
   --primary-red: #d66c48;
   --primary-green: #6d865c;
   --background-beige: #fff8ed;
+  --letter-100: #fff8ed;
+  --letter-200: #f9eedf;
+  --letter-300: #f5e6d3;
 
   --font-pretendard: 'Pretendard', sans-serif;
   --font-handwrite: 'SseulroneNetHandwrittenFont', sans-serif;
@@ -43,6 +46,9 @@
   --color-primary-red: var(--primary-red);
   --color-primary-green: var(--primary-green);
   --color-background-beige: var(--background-beige);
+  --color-letter-100: var(--letter-100);
+  --color-letter-200: var(--letter-200);
+  --color-letter-300: var(--letter-300);
 
   --color-primary-50: oklch(0.982 0.004 45);
   --color-primary-100: oklch(0.967 0.009 45);
