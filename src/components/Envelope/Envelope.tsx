@@ -95,7 +95,7 @@ const EnvelopeEnvelope = () => {
     <div className="relative" style={{ zIndex: 10 }}>
       {/* 봉투 body */}
       <button className="relative" style={{ zIndex: 15 }} onClick={clickHandler}>
-        <Image src="/svg/envelope-body1.svg" alt="편지봉투" width={320} height={224} />
+        <Image src="/svg/envelope-body.svg" alt="편지봉투" width={320} height={224} />
       </button>
       {/* 뚜껑 */}
       <button
