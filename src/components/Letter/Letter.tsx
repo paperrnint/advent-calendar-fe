@@ -2,6 +2,11 @@ interface Props {
   children: React.ReactNode;
 }
 
+interface ContentProps {
+  children: React.ReactNode;
+  fixedHeight?: boolean;
+}
+
 interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   value: string;
   onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
@@ -36,9 +41,13 @@ const LetterTextarea = ({ value, onChange, ...props }: TextareaProps) => {
   );
 };
 
-const LetterContent = ({ children }: Props) => {
+const LetterContent = ({ children, fixedHeight }: ContentProps) => {
   return (
-    <p className="dotted-lines-bg text-justify text-lg leading-9 whitespace-pre-line">{children}</p>
+    <div className={`max-h-90 overflow-auto ${fixedHeight ? 'min-h-90' : ''}`}>
+      <p className={`dotted-lines-bg text-justify text-lg leading-9 whitespace-pre-line`}>
+        {children}
+      </p>
+    </div>
   );
 };
 
