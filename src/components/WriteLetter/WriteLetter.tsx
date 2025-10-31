@@ -1,8 +1,7 @@
-import { LucideX } from 'lucide-react';
+import { Loader2, LucideX } from 'lucide-react';
 import { useState } from 'react';
 
 import { Letter } from '../Letter/Letter';
-import { USERNAME } from '@/constants';
 
 interface Props {
   to: string;
@@ -12,10 +11,18 @@ interface Props {
 export const WriteLetter = ({ to, onClose }: Props) => {
   const [text, setText] = useState('');
   const [from, setFrom] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const sendLetter = () => {
+    setIsLoading(true);
+
     const letter = { text, from };
     console.log(letter);
+
+    setTimeout(() => {
+      onClose?.();
+      setIsLoading(false);
+    }, 1000);
   };
 
   return (
@@ -31,10 +38,13 @@ export const WriteLetter = ({ to, onClose }: Props) => {
         <LucideX size={20} />
       </button>
       <button
-        className="bg-primary-green/90 mt-4 cursor-pointer rounded-lg px-3 py-1 text-lg text-white"
+        type="button"
+        className="bg-primary-green/90 mt-4 inline-flex cursor-pointer items-center justify-center rounded-lg px-3 py-1 text-lg text-white disabled:cursor-not-allowed disabled:opacity-50"
         onClick={sendLetter}
+        disabled={isLoading}
       >
-        보내기
+        {isLoading && <Loader2 className="mr-2 size-5 animate-spin" />}
+        {isLoading ? '보내는 중...' : '보내기'}
       </button>
     </Letter.Container>
   );
