@@ -16,7 +16,7 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
 const FormContainer = ({ children }: Props) => {
-  return <div className="w-full rounded-xl bg-white p-6">{children}</div>;
+  return <div className="w-full rounded-xl border border-neutral-200 bg-white p-6">{children}</div>;
 };
 
 const FormHeader = ({ children }: Props) => {
@@ -74,11 +74,12 @@ const FormAction = ({ children }: Props) => {
   return <div className="mt-4 flex justify-end gap-2">{children}</div>;
 };
 
-const Confirm = ({ ...props }: ButtonProps) => {
+const Confirm = ({ disabled, ...props }: ButtonProps) => {
   return (
     <button
       type="button"
-      className="bg-primary-red h-11 shrink-0 cursor-pointer rounded-lg px-4 py-1 text-white"
+      disabled={disabled}
+      className={`bg-primary-red h-11 shrink-0 cursor-pointer rounded-lg px-4 py-1 text-white ${disabled ? 'cursor-default opacity-50' : 'cursor-pointer'} `}
       {...props}
     >
       확인
@@ -86,11 +87,12 @@ const Confirm = ({ ...props }: ButtonProps) => {
   );
 };
 
-const Cancel = ({ ...props }: ButtonProps) => {
+const Cancel = ({ disabled, ...props }: ButtonProps) => {
   return (
     <button
       type="button"
-      className="h-11 shrink-0 cursor-pointer rounded-lg bg-neutral-100 px-4 py-1 text-neutral-600"
+      disabled={disabled}
+      className={`h-11 shrink-0 cursor-pointer rounded-lg bg-neutral-100 px-4 py-1 text-neutral-600 ${disabled ? 'cursor-default opacity-50' : 'cursor-pointer'} `}
       {...props}
     >
       이전
