@@ -28,3 +28,21 @@ export const GuestCalendar: Story = {
     ownerName: '산타',
   },
 };
+
+export const HideInfo: Story = {
+  args: {
+    today: '2025-11-01',
+    isOwner: false,
+    ownerName: '산타',
+    hideInfo: true,
+  },
+};
+
+export const HideDay: Story = {
+  args: {
+    today: '2025-11-01',
+    isOwner: false,
+    ownerName: '산타',
+    hideDay: true,
+  },
+};
