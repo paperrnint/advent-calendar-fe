@@ -10,6 +10,14 @@
 }
 
 @font-face {
+  font-family: 'Pretendard';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-Medium.woff2')
+    format('woff2');
+  font-weight: 500;
+  font-display: swap;
+}
+
+@font-face {
   font-family: 'SseulroneNetHandwrittenFont';
   src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2402_1@1.0/SSRONETHandwritten.woff2')
     format('woff2');
@@ -34,6 +42,8 @@
   --letter-100: #fff8ed;
   --letter-200: #f9eedf;
   --letter-300: #f5e6d3;
+  --naver: #03c75a;
+  --kakao: #fee500;
 
   --font-pretendard: 'Pretendard', sans-serif;
   --font-handwrite: 'SseulroneNetHandwrittenFont', sans-serif;
@@ -49,6 +59,8 @@
   --color-letter-100: var(--letter-100);
   --color-letter-200: var(--letter-200);
   --color-letter-300: var(--letter-300);
+  --color-naver: var(--naver);
+  --color-kakao: var(--kakao);
 
   --color-primary-50: oklch(0.982 0.004 45);
   --color-primary-100: oklch(0.967 0.009 45);
