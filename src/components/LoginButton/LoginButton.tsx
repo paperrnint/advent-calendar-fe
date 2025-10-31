@@ -16,10 +16,10 @@ export const LoginButton = ({ type }: Props) => {
   return (
     <button
       onClick={handleLogin}
-      className={`flex w-60 cursor-pointer items-center justify-center rounded-full px-5 py-3 ${style} `}
+      className={`flex w-full cursor-pointer items-center justify-center rounded-2xl px-5 py-2 ${style} `}
     >
-      <Image src={icon} alt={`${type} 로고`} width={16} height={16} className="h-4 w-4 shrink-0" />
-      <span className="flex-1 font-medium">{text}</span>
+      <Image src={icon} alt={`${type} 로고`} width={24} height={24} className="h-6 w-6 shrink-0" />
+      <span className="flex-1 p-2 text-lg font-medium">{text}</span>
     </button>
   );
 };
