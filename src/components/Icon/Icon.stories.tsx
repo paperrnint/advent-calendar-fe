@@ -37,7 +37,7 @@ export const Default: Story = {
   },
 };
 
-export const AllIcons: Story = {
+export const AllIcons: Omit<Story, 'args'> = {
   render: () => (
     <div className="grid grid-cols-5 gap-4">
       {Array.from({ length: 25 }, (_, i) => i + 1).map((num) => (
