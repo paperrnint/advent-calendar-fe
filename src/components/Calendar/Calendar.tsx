@@ -10,7 +10,8 @@ import { WriteLetter } from '../WriteLetter/WriteLetter';
 import { isBefore } from '@/utils/dayjs';
 import { CALENDAR_INFO_MESSAGES } from './Calendar.constants';
 import { Envelope } from '../Envelope/Envelope';
-import { Letter } from '../Letter/Letter';
+import { LetterCarousel } from '../LetterCarousel/LetterCarousel';
+import { LETTERS } from '@/constants';
 
 interface Props {
   today: string;
@@ -72,18 +73,8 @@ export const Calendar = ({
           {isOwner ? (
             <Envelope.Container>
               <Envelope.Content>
-                <Letter.Container>
-                  <Letter.Content fixedHeight>
-                    Merry Christmas! 🎄
-                    {'\n\n'}
-                    크리스마스를 맞아 따뜻한 인사를 전합니다.{'\n'}올 한 해도 고생 많으셨어요.
-                    새해에는 더 좋은 일만 가득하길 바랍니다.
-                    {'\n\n'}
-                    크리스마스를 맞아 따뜻한 인사를 전합니다.{'\n'}올 한 해도 고생 많으셨어요.
-                    새해에는 더 좋은 일만 가득하길 바랍니다.
-                  </Letter.Content>
-                  <Letter.Footer from="산타" date="2025.12.25" />
-                </Letter.Container>
+                {/* 여러 편지가 있는 경우 */}
+                <LetterCarousel letters={LETTERS} />
               </Envelope.Content>
               <Envelope.Envelope />
               <Envelope.Seal day={openDay || 1} />
