@@ -4,6 +4,8 @@ import { Form } from '@/components/Form/Form';
 import { Palette } from '@/components/Palette/Palette';
 import { useBodyBackground } from '@/hooks/useBodyBackground';
 import { useNewForm } from '@/hooks/useNewForm';
+import { useRegisterUser } from '@/hooks/useRegisterUser';
+import { UserRegisterRequest } from '@/types/api';
 import Image from 'next/image';
 
 export default function NewPage() {
@@ -15,11 +17,21 @@ export default function NewPage() {
     updateColor,
     goToNextStep,
     goToPrevStep,
-    submit,
+    getUserData,
     isNameValid,
     isColorValid,
   } = useNewForm();
+  const { mutate, isPending } = useRegisterUser();
+
   useBodyBackground('var(--background-beige)');
+
+  const submit = () => {
+    const userData = getUserData();
+    if (!isNameValid || !isColorValid || userData.color === null) {
+      return;
+    }
+    mutate(userData as UserRegisterRequest);
+  };
 
   return (
     <div className="bg-background-beige flex h-dvh w-full max-w-md flex-col px-4 pt-16">
@@ -63,8 +75,11 @@ export default function NewPage() {
                 <Palette onUpdate={updateColor} />
               </div>
               <Form.Action>
-                <Form.Cancel onClick={goToPrevStep}>이전</Form.Cancel>
-                <Form.Confirm onClick={submit} disabled={!isColorValid}>
+                <Form.Cancel onClick={goToPrevStep} disabled={isPending}>
+                  이전
+                </Form.Cancel>
+                <Form.Confirm onClick={submit} disabled={!isColorValid || isPending}>
+                  {/* @todo: isPending 처리 */}
                   확인
                 </Form.Confirm>
               </Form.Action>
