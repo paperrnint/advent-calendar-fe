@@ -1,29 +1,40 @@
-'use client';
+import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 
-import { Calendar } from '@/components/Calendar/Calendar';
-import { NewButton } from '@/components/NewButton/NewButton';
-import { Ribbon } from '@/components/Ribbon/Ribbon';
-import { ShareButton } from '@/components/ShareButton/ShareButton';
-import { USERNAME } from '@/constants';
+import { AdventCalendar } from '@/components/AdventCalendar/AdventCalendar';
+import { fetchApi } from '@/lib/api/fetch';
+import { UserDataResponse } from '@/types/api';
 
-export default function AdventCalendarPage() {
-  return (
-    <div className="h-dvh max-w-md">
-      {/* 어드벤트 캘린더 */}
-      <div className="mb-4 px-4">
-        <Ribbon name={USERNAME} color="green" />
-        <Calendar today="2025-12-09" isOwner={true} ownerName="산타" />
-      </div>
+export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
+  const { id } = await params;
 
-      {/* 본인 페이지 아닐 때 */}
-      <div className="flex items-center justify-center p-4">
-        <NewButton>내 어드벤트 캘린더 만들기</NewButton>
-      </div>
+  try {
+    const { data: userData } = await fetchApi<UserDataResponse>(`/api/users/${id}`);
 
-      {/* 본인 페이지 일 때 */}
-      <div className="flex items-center justify-center p-4">
-        <ShareButton />
-      </div>
-    </div>
-  );
+    return {
+      title: `${userData.name}님의 어드벤트 캘린더 💌`,
+      description: '친구의 어드벤트 캘린더에 편지를 보내보세요',
+      openGraph: {
+        title: `${userData.name}님의 어드벤트 캘린더 💌`,
+        description: '친구의 어드벤트 캘린더에 편지를 보내보세요',
+      },
+    };
+  } catch (error) {
+    return {
+      title: '2025 어드벤트 캘린더 💌',
+      description: '친구의 어드벤트 캘린더에 편지를 보내보세요',
+    };
+  }
+}
+
+export default async function AdventCalendarPage({ params }: { params: { id: string } }) {
+  const { id } = await params;
+
+  try {
+    const { data: userData } = await fetchApi<UserDataResponse>(`/api/users/${id}`);
+
+    return <AdventCalendar owner={userData} pageUuid={id} />;
+  } catch (error) {
+    notFound();
+  }
 }
