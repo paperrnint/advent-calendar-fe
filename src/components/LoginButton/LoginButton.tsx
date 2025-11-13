@@ -9,8 +9,8 @@ export const LoginButton = ({ type }: Props) => {
   const { icon, text, style } = loginConfig[type];
 
   const handleLogin = () => {
-    // @todo: 실제 로그인 구현 로직
-    console.log('로그인');
+    // oauth provider 로그인 화면으로 이동
+    window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/${type}`;
   };
 
   return (
