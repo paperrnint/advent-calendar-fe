@@ -48,6 +48,11 @@
   --font-pretendard: 'Pretendard', sans-serif;
   --font-handwrite: 'SseulroneNetHandwrittenFont', sans-serif;
   --font-jeju: 'JejuStoneWall', sans-serif;
+
+  --popover: #fafafa;
+  --popover-foreground: #404040;
+  --border: #e5e5e5;
+  --radius: 1rem;
 }
 
 @theme inline {
@@ -77,6 +82,11 @@
   --font-jeju: var(--font-jeju);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  --color-border: var(--border);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --radius: var(--radius);
 }
 
 body {
