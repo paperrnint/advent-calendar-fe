@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { QueryProvider } from '@/components/QueryProvider/QueryProvider';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -34,7 +35,7 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className="flex h-dvh flex-col items-center">
-        {children}
+        <QueryProvider>{children}</QueryProvider>
         <div id="portal"></div>
       </body>
     </html>
