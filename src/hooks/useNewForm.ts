@@ -1,15 +1,10 @@
-import { MAX_NAME_LENGTH, RibbonColor } from '@/constants';
-import { useParams, useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { MAX_NAME_LENGTH, RibbonColor } from '@/constants';
 
 export const useNewForm = () => {
   const [step, setStep] = useState(0);
   const [name, setName] = useState('');
   const [color, setColor] = useState<RibbonColor | null>(null);
-
-  const router = useRouter();
-  const params = useParams();
-  const id = params.id;
 
   const updateName = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newName = e.target.value;
@@ -37,18 +32,11 @@ export const useNewForm = () => {
     setStep(0);
   };
 
-  const submit = async () => {
-    const userData = { name: name.trim(), color };
-
-    try {
-      // @todo: 서버에 전송
-      console.log(userData);
-      // router.push(`/${id}`);
-    } catch (err) {
-      // @todo: 잠시후 다시 시도 에러 메시지
-      console.error(err);
-      router.push('/');
-    }
+  const getUserData = () => {
+    return {
+      name: name.trim(),
+      color,
+    };
   };
 
   return {
@@ -56,7 +44,6 @@ export const useNewForm = () => {
     step,
     name,
     color,
-    id,
 
     // Handlers
     updateName,
@@ -64,7 +51,7 @@ export const useNewForm = () => {
     updateColor,
     goToNextStep,
     goToPrevStep,
-    submit,
+    getUserData,
 
     // Computed
     isNameValid: name.trim().length > 0,
