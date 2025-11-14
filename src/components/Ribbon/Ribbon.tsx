@@ -1,6 +1,6 @@
 import Image from 'next/image';
 
-import { RibbonColor, ribbonFilter, USERNAME } from '@/constants';
+import { RibbonColor, ribbonFilter } from '@/constants';
 
 interface Props {
   color: RibbonColor;

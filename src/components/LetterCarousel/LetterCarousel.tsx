@@ -7,10 +7,11 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { ShareButton } from '../ShareButton/ShareButton';
 
 interface Props {
-  letters: LetterData[];
+  letters?: LetterData[];
+  isLoading?: boolean;
 }
 
-export const LetterCarousel = ({ letters }: Props) => {
+export const LetterCarousel = ({ letters = [], isLoading }: Props) => {
   const [curIndex, setCurIndex] = useState(0);
 
   const maxIndex = letters.length - 1;
@@ -23,6 +24,16 @@ export const LetterCarousel = ({ letters }: Props) => {
   const goToPrev = () => {
     setCurIndex((prev) => Math.max(prev - 1, 0));
   };
+
+  if (isLoading) {
+    return (
+      <div className="relative" style={{ pointerEvents: 'none' }}>
+        <Letter.Container>
+          <Letter.Content fixedHeight> </Letter.Content>
+        </Letter.Container>
+      </div>
+    );
+  }
 
   if (letters.length === 0) {
     return (

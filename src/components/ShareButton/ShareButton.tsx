@@ -4,8 +4,6 @@ import { LucideCheck, LucideShare } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 
-import { USERNAME } from '@/constants';
-
 export const ShareButton = () => {
   const pathname = usePathname();
   const [isCopied, setIsCopied] = useState(false);
@@ -28,8 +26,8 @@ export const ShareButton = () => {
 
   const share = async () => {
     const shareData = {
-      title: `${USERNAME}님의 어드벤트 캘린더`,
-      text: `크리스마스 인사를 전해보세요 💌`,
+      title: '2025 어드벤트 캘린더',
+      text: '공유하고 크리스마스 편지를 받아보세요 💌',
       url: currentUrl,
     };
 
