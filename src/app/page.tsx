@@ -1,7 +1,6 @@
 'use client';
 
 import { Calendar } from '@/components/Calendar/Calendar';
-import { Icon } from '@/components/Icon/Icon';
 import { LoginButton } from '@/components/LoginButton/LoginButton';
 import { Ribbon } from '@/components/Ribbon/Ribbon';
 import Image from 'next/image';
