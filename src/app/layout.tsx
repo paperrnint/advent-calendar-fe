@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import { QueryProvider } from '@/components/QueryProvider/QueryProvider';
-import './globals.css';
 import { Toaster } from '@/components/ui/sonner';
+import { AuthProvider } from '@/components/AuthProvider/AuthProvider';
+import './globals.css';
 
 export const metadata: Metadata = {
   title: '2025 어드벤트 캘린더 💌',
@@ -36,7 +37,9 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className="flex h-dvh flex-col items-center">
-        <QueryProvider>{children}</QueryProvider>
+        <QueryProvider>
+          <AuthProvider>{children}</AuthProvider>
+        </QueryProvider>
         <div id="portal"></div>
         <Toaster />
       </body>

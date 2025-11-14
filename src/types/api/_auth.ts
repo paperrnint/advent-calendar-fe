@@ -8,3 +8,9 @@ export type UserRegisterRequest = {
 export type UserRegisterResponse = {
   uuid: string;
 };
+
+export type CurrentUserResponse = {
+  name: string;
+  color: RibbonColor;
+  uuid: string;
+};

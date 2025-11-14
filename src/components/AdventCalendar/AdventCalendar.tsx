@@ -7,6 +7,7 @@ import { Ribbon } from '../Ribbon/Ribbon';
 import { Calendar } from '../Calendar/Calendar';
 import { ShareButton } from '../ShareButton/ShareButton';
 import { LinkButton } from '../LinkButton/LinkButton';
+import { LogoutButton } from '../LogoutButton/LogoutButton';
 
 interface Props {
   owner: UserData;
@@ -31,6 +32,12 @@ export const AdventCalendar = ({ owner, pageUuid }: Props) => {
       <div className="flex items-center justify-center p-4">
         {isOwner ? <ShareButton /> : <LinkButton href="/">내 어드벤트 캘린더 만들기</LinkButton>}
       </div>
+
+      {curUser.isAuthenticated && (
+        <div className="fixed right-4 bottom-4">
+          <LogoutButton />
+        </div>
+      )}
     </div>
   );
 };
