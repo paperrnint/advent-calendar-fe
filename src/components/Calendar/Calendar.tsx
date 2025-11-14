@@ -14,6 +14,7 @@ import { LetterCarousel } from '../LetterCarousel/LetterCarousel';
 import { LETTERS } from '@/constants';
 
 interface Props {
+  uuid: string;
   today: string;
   isOwner: boolean;
   ownerName: string;
@@ -22,6 +23,7 @@ interface Props {
 }
 
 export const Calendar = ({
+  uuid,
   today,
   isOwner,
   ownerName,
@@ -80,7 +82,7 @@ export const Calendar = ({
               <Envelope.Seal day={openDay || 1} />
             </Envelope.Container>
           ) : (
-            <WriteLetter to={ownerName} onClose={onCloseModal} />
+            <WriteLetter to={ownerName} day={openDay || 1} uuid={uuid} onClose={onCloseModal} />
           )}
         </Modal>
       </div>

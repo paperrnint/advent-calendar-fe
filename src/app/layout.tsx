@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { QueryProvider } from '@/components/QueryProvider/QueryProvider';
 import './globals.css';
+import { Toaster } from '@/components/ui/sonner';
 
 export const metadata: Metadata = {
   title: '2025 어드벤트 캘린더 💌',
@@ -37,6 +38,7 @@ export default function RootLayout({
       <body className="flex h-dvh flex-col items-center">
         <QueryProvider>{children}</QueryProvider>
         <div id="portal"></div>
+        <Toaster />
       </body>
     </html>
   );
