@@ -1,4 +1,4 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
 import { writeLetter } from '@/lib/api/letter';
@@ -11,10 +11,13 @@ interface Props {
 }
 
 export const useWriteLetter = ({ uuid, onClose, onSuccess }: Props) => {
+  const queryClient = useQueryClient();
+
   const { mutate, isPending } = useMutation({
     mutationFn: (data: WriteLetterRequest) => writeLetter(uuid, data),
     onSuccess: () => {
       toast.success('편지를 성공적으로 전송했어요');
+      queryClient.invalidateQueries({ queryKey: ['letters', uuid] });
       onSuccess?.();
       onClose?.();
     },

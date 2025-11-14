@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { toast } from 'sonner';
 
 import { Flap } from '../Flap/Flap';
 import { Icon } from '../Icon/Icon';
@@ -11,7 +12,7 @@ import { isBefore } from '@/utils/dayjs';
 import { CALENDAR_INFO_MESSAGES } from './Calendar.constants';
 import { Envelope } from '../Envelope/Envelope';
 import { LetterCarousel } from '../LetterCarousel/LetterCarousel';
-import { LETTERS } from '@/constants';
+import { useLetters } from '@/hooks/useLetters';
 
 interface Props {
   uuid: string;
@@ -31,6 +32,12 @@ export const Calendar = ({
   hideDay = false,
 }: Props) => {
   const [openDay, setOpenDay] = useState<number | null>(null);
+  const {
+    data: letters,
+    isLoading,
+    isError,
+    error,
+  } = useLetters({ uuid, day: openDay || 1, enabled: isOwner && openDay !== null });
 
   const days = Array.from({ length: 25 }, (_, i) => ({
     date: `2025-12-${i + 1}`,
@@ -51,6 +58,12 @@ export const Calendar = ({
   const onCloseModal = () => {
     setOpenDay(null);
   };
+
+  useEffect(() => {
+    if (isError && error) {
+      toast.error('편지를 불러오는데 실패했습니다');
+    }
+  }, [isError, error]);
 
   return (
     <div className="bg-background-beige rounded-lg p-4">
@@ -76,7 +89,7 @@ export const Calendar = ({
             <Envelope.Container>
               <Envelope.Content>
                 {/* 여러 편지가 있는 경우 */}
-                <LetterCarousel letters={LETTERS} />
+                <LetterCarousel letters={letters} isLoading={isLoading} />
               </Envelope.Content>
               <Envelope.Envelope />
               <Envelope.Seal day={openDay || 1} />

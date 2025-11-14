@@ -70,3 +70,10 @@ export const EmptyLetter: Story = {
     letters: [],
   },
 };
+
+export const LoadingLetter: Story = {
+  args: {
+    letters: [],
+    isLoading: true,
+  },
+};
