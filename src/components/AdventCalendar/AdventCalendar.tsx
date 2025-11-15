@@ -5,9 +5,8 @@ import { UserData } from '@/types/data';
 import { useAtomValue } from 'jotai';
 import { Ribbon } from '../Ribbon/Ribbon';
 import { Calendar } from '../Calendar/Calendar';
-import { ShareButton } from '../ShareButton/ShareButton';
-import { LinkButton } from '../LinkButton/LinkButton';
-import { LogoutButton } from '../LogoutButton/LogoutButton';
+import { NavigationBar } from '../NavigationBar/NavigationBar';
+import { CalendarAction } from '../CalendarAction/CalendarAction';
 
 interface Props {
   owner: UserData;
@@ -16,28 +15,25 @@ interface Props {
 
 export const AdventCalendar = ({ owner, pageUuid }: Props) => {
   const curUser = useAtomValue(userAtom);
-  const isOwner = curUser.isAuthenticated && curUser.uuid === pageUuid;
+  const isLoggedIn = curUser.isAuthenticated;
+  const isOwner = isLoggedIn && curUser.uuid === pageUuid;
 
   console.log(curUser);
 
   return (
     <div className="h-dvh max-w-md">
+      <NavigationBar isAuthenticated={isLoggedIn} />
+
       {/* 어드벤트 캘린더 */}
-      <div className="mb-4 px-4">
+      <div className="mb-4 px-4 py-2 pt-15">
         <Ribbon name={owner.name} color={owner.color} />
         <Calendar uuid={pageUuid} today="2025-12-09" isOwner={isOwner} ownerName={owner.name} />
       </div>
 
       {/* actions */}
       <div className="flex items-center justify-center p-4">
-        {isOwner ? <ShareButton /> : <LinkButton href="/">내 어드벤트 캘린더 만들기</LinkButton>}
+        <CalendarAction isLoggedIn={isLoggedIn} isOwner={isOwner} userUuid={curUser.uuid} />
       </div>
-
-      {curUser.isAuthenticated && (
-        <div className="fixed right-4 bottom-4">
-          <LogoutButton />
-        </div>
-      )}
     </div>
   );
 };
