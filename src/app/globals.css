@@ -49,9 +49,23 @@
   --font-handwrite: 'SseulroneNetHandwrittenFont', sans-serif;
   --font-jeju: 'JejuStoneWall', sans-serif;
 
-  --popover: #fafafa;
+  --card: #ffffff;
+  --card-foreground: #171717;
+  --popover: #ffffff;
   --popover-foreground: #404040;
+  --primary: #6d865c;
+  --primary-foreground: #ffffff;
+  --secondary: #f5f5f5;
+  --secondary-foreground: #171717;
+  --muted: #f5f5f5;
+  --muted-foreground: #737373;
+  --accent: #f5f5f5;
+  --accent-foreground: #171717;
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
   --border: #e5e5e5;
+  --input: #e5e5e5;
+  --ring: #d66c48;
   --radius: 1rem;
 }
 
@@ -83,16 +97,38 @@
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 
-  --color-border: var(--border);
-  --color-popover-foreground: var(--popover-foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
   --color-popover: var(--popover);
-  --radius: var(--radius);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-pretendard), Arial, Helvetica, sans-serif;
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-pretendard), Arial, Helvetica, sans-serif;
+  }
 }
 
 .dotted-lines-bg {
