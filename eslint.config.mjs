@@ -67,6 +67,11 @@ const eslintConfig = [
               position: 'before',
             },
             {
+              pattern: '@storybook/**',
+              group: 'external',
+              position: 'after',
+            },
+            {
               pattern: './*.css',
               group: 'unknown',
               position: 'after',
