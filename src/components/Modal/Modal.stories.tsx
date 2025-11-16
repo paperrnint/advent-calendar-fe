@@ -1,5 +1,7 @@
-import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
+
+import type { Meta, StoryObj } from '@storybook/nextjs';
+
 import { Modal } from './Modal';
 import { Flap } from '../Flap/Flap';
 import { Icon } from '../Icon/Icon';
@@ -66,7 +68,7 @@ export const LetterModal: Omit<Story, 'args'> = {
         </Flap>
         {/* Modal */}
         <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
-          <WriteLetter to="산타" onClose={() => setIsOpen(false)} />
+          <WriteLetter to="산타" day={1} uuid="test-uuid" onClose={() => setIsOpen(false)} />
         </Modal>
       </div>
     );

@@ -1,9 +1,10 @@
 'use client';
 
-import { createContext, useContext, useState } from 'react';
-import { Icon } from '../Icon/Icon';
 import Image from 'next/image';
+import { createContext, useContext, useState } from 'react';
+
 import { envelopeContentStyles } from './Envelope.constants';
+import { Icon } from '../Icon/Icon';
 
 interface EnvelopeContextType {
   isOpen: boolean;

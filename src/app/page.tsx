@@ -1,9 +1,10 @@
 'use client';
 
+import Image from 'next/image';
+
 import { Calendar } from '@/components/Calendar/Calendar';
 import { LoginButton } from '@/components/LoginButton/LoginButton';
 import { Ribbon } from '@/components/Ribbon/Ribbon';
-import Image from 'next/image';
 
 export default function Home() {
   return (

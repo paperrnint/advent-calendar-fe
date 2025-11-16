@@ -1,4 +1,5 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/nextjs';
+
 import { Flap } from './Flap';
 import { Icon } from '../Icon/Icon';
 

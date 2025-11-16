@@ -1,6 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/react';
-import { Toaster } from './sonner';
 import { toast } from 'sonner';
+
+import type { Meta, StoryObj } from '@storybook/nextjs';
+
+import { Toaster } from './sonner';
 
 const meta = {
   title: 'UI/Toaster',

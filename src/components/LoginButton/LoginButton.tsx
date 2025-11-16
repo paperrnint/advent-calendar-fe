@@ -1,4 +1,5 @@
 import Image from 'next/image';
+
 import { loginConfig } from './LoginButton.constants';
 
 interface Props {

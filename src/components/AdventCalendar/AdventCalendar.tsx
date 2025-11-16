@@ -1,12 +1,13 @@
 'use client';
 
+import { useAtomValue } from 'jotai';
+
+import { Calendar } from '../Calendar/Calendar';
+import { CalendarAction } from '../CalendarAction/CalendarAction';
+import { NavigationBar } from '../NavigationBar/NavigationBar';
+import { Ribbon } from '../Ribbon/Ribbon';
 import { userAtom } from '@/stores/authStore';
 import { UserData } from '@/types/data';
-import { useAtomValue } from 'jotai';
-import { Ribbon } from '../Ribbon/Ribbon';
-import { Calendar } from '../Calendar/Calendar';
-import { NavigationBar } from '../NavigationBar/NavigationBar';
-import { CalendarAction } from '../CalendarAction/CalendarAction';
 
 interface Props {
   owner: UserData;

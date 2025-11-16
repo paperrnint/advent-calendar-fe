@@ -1,10 +1,11 @@
 'use client';
 
-import { LetterData } from '@/types/data';
-import { Letter } from '../Letter/Letter';
-import { useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { useState } from 'react';
+
+import { Letter } from '../Letter/Letter';
 import { ShareButton } from '../ShareButton/ShareButton';
+import { LetterData } from '@/types/data';
 
 interface Props {
   letters?: LetterData[];

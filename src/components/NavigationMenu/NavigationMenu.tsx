@@ -1,9 +1,10 @@
-import { Gift, LogIn, LogOut, Trash2 } from 'lucide-react';
-import { DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator } from '../ui/dropdown-menu';
 import { useAtomValue } from 'jotai';
-import { userAtom } from '@/stores/authStore';
+import { Gift, LogIn, LogOut, Trash2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+
+import { DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator } from '../ui/dropdown-menu';
 import { useLogout } from '@/hooks/useLogout';
+import { userAtom } from '@/stores/authStore';
 
 const NavigationMenuContent = ({ children }: { children: React.ReactNode }) => {
   return (

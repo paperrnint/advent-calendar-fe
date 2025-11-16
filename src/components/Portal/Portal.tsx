@@ -1,18 +1,18 @@
 'use client';
 
+import { useSyncExternalStore } from 'react';
 import ReactDOM from 'react-dom';
-import { useEffect, useState } from 'react';
 
 interface Props {
   children: React.ReactNode;
 }
 
 export const Portal = ({ children }: Props) => {
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const mounted = useSyncExternalStore(
+    () => () => {}, // subscribe: 아무것도 구독하지 않음
+    () => true, // getSnapshot (클라이언트): 항상 true
+    () => false, // getServerSnapshot (서버): 항상 false
+  );
 
   // 마운트되기 전에는 렌더링하지 않음
   if (!mounted) {

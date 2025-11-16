@@ -1,4 +1,5 @@
 import type { Preview } from '@storybook/nextjs-vite';
+
 import { StorybookProviders } from './providers';
 import '../src/app/globals.css';
 

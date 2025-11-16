@@ -1,6 +1,7 @@
+import { useQuery } from '@tanstack/react-query';
+
 import { getLetters } from '@/lib/api/letter';
 import { LetterModel } from '@/models/Letter';
-import { useQuery } from '@tanstack/react-query';
 
 interface Props {
   uuid: string;

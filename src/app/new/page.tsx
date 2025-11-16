@@ -1,12 +1,13 @@
 'use client';
 
+import Image from 'next/image';
+
 import { Form } from '@/components/Form/Form';
 import { Palette } from '@/components/Palette/Palette';
 import { useBodyBackground } from '@/hooks/useBodyBackground';
 import { useNewForm } from '@/hooks/useNewForm';
 import { useRegisterUser } from '@/hooks/useRegisterUser';
 import { UserRegisterRequest } from '@/types/api';
-import Image from 'next/image';
 
 export default function NewPage() {
   const {

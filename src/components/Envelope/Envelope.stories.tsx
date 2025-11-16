@@ -1,6 +1,6 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/nextjs';
+
 import { Envelope } from './Envelope';
-import { useState } from 'react';
 import { Letter } from '../Letter/Letter';
 
 const meta = {

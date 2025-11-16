@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
+
+import { AuthProvider } from '@/components/AuthProvider/AuthProvider';
 import { QueryProvider } from '@/components/QueryProvider/QueryProvider';
 import { Toaster } from '@/components/ui/sonner';
-import { AuthProvider } from '@/components/AuthProvider/AuthProvider';
 import './globals.css';
 
 export const metadata: Metadata = {

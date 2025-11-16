@@ -13,7 +13,7 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   onClear?: () => void;
 }
 
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
+type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 const FormContainer = ({ children }: Props) => {
   return <div className="w-full rounded-xl border border-neutral-200 bg-white p-6">{children}</div>;

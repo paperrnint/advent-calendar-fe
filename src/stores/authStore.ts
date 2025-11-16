@@ -1,5 +1,6 @@
-import { RibbonColor } from '@/constants';
 import { atom } from 'jotai';
+
+import { RibbonColor } from '@/constants';
 
 export interface UserState {
   uuid: string | null;
