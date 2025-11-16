@@ -1,9 +1,10 @@
-import { logout } from '@/lib/api/auth';
-import { authErrorAtom, authLoadingAtom, userAtom } from '@/stores/authStore';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useSetAtom } from 'jotai';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
+
+import { logout } from '@/lib/api/auth';
+import { authErrorAtom, authLoadingAtom, userAtom } from '@/stores/authStore';
 
 export const useLogout = () => {
   const router = useRouter();

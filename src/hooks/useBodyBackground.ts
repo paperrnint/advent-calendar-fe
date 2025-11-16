@@ -7,5 +7,5 @@ export const useBodyBackground = (color: string) => {
     return () => {
       document.body.style.backgroundColor = '';
     };
-  }, []);
+  }, [color]);
 };

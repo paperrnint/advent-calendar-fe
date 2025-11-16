@@ -3,41 +3,54 @@
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
+import { CALENDAR_INFO_MESSAGES } from './Calendar.constants';
+import { Envelope } from '../Envelope/Envelope';
 import { Flap } from '../Flap/Flap';
 import { Icon } from '../Icon/Icon';
 import { Info } from '../Info/Info';
+import { LetterCarousel } from '../LetterCarousel/LetterCarousel';
 import { Modal } from '../Modal/Modal';
 import { WriteLetter } from '../WriteLetter/WriteLetter';
-import { isBefore } from '@/utils/dayjs';
-import { CALENDAR_INFO_MESSAGES } from './Calendar.constants';
-import { Envelope } from '../Envelope/Envelope';
-import { LetterCarousel } from '../LetterCarousel/LetterCarousel';
 import { useLetters } from '@/hooks/useLetters';
+import { isBefore } from '@/utils/dayjs';
 
-interface Props {
-  uuid: string;
+type BaseProps = {
   today: string;
   isOwner: boolean;
   ownerName: string;
+};
+
+type PreviewProps = BaseProps & {
+  hideInfo: true;
+  hideDay: true;
+  uuid?: never;
+};
+
+type RealProps = BaseProps & {
+  uuid: string;
   hideInfo?: boolean;
   hideDay?: boolean;
-}
+};
 
-export const Calendar = ({
-  uuid,
-  today,
-  isOwner,
-  ownerName,
-  hideInfo = false,
-  hideDay = false,
-}: Props) => {
+type Props = PreviewProps | RealProps;
+
+export const Calendar = (props: Props) => {
+  const { today, isOwner, ownerName } = props;
+  const hideInfo = 'hideInfo' in props ? props.hideInfo : false;
+  const hideDay = 'hideDay' in props ? props.hideDay : false;
+  const uuid = 'uuid' in props ? props.uuid : undefined;
+
   const [openDay, setOpenDay] = useState<number | null>(null);
   const {
     data: letters,
     isLoading,
     isError,
     error,
-  } = useLetters({ uuid, day: openDay || 1, enabled: isOwner && openDay !== null });
+  } = useLetters({
+    uuid: uuid || '',
+    day: openDay || 1,
+    enabled: !!uuid && isOwner && openDay !== null,
+  });
 
   const days = Array.from({ length: 25 }, (_, i) => ({
     date: `2025-12-${i + 1}`,
@@ -52,6 +65,7 @@ export const Calendar = ({
   };
 
   const onClickDay = (day: number) => {
+    if (!uuid) return;
     setOpenDay(day);
   };
 
@@ -88,14 +102,15 @@ export const Calendar = ({
           {isOwner ? (
             <Envelope.Container>
               <Envelope.Content>
-                {/* 여러 편지가 있는 경우 */}
                 <LetterCarousel letters={letters} isLoading={isLoading} />
               </Envelope.Content>
               <Envelope.Envelope />
               <Envelope.Seal day={openDay || 1} />
             </Envelope.Container>
           ) : (
-            <WriteLetter to={ownerName} day={openDay || 1} uuid={uuid} onClose={onCloseModal} />
+            uuid && (
+              <WriteLetter to={ownerName} day={openDay || 1} uuid={uuid} onClose={onCloseModal} />
+            )
           )}
         </Modal>
       </div>

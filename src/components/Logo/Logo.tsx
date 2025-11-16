@@ -1,4 +1,5 @@
 import Link from 'next/link';
+
 import { Icon } from '../Icon/Icon';
 
 export const Logo = () => {

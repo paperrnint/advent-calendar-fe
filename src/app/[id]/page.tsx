@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/error-boundaries */
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 

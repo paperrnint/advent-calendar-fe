@@ -1,10 +1,11 @@
-import { registerUser } from '@/lib/api/auth';
-import { authErrorAtom, authLoadingAtom, userAtom } from '@/stores/authStore';
-import { UserRegisterRequest } from '@/types/api';
 import { useMutation } from '@tanstack/react-query';
 import { useSetAtom } from 'jotai';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
+
+import { registerUser } from '@/lib/api/auth';
+import { authErrorAtom, authLoadingAtom, userAtom } from '@/stores/authStore';
+import { UserRegisterRequest } from '@/types/api';
 
 export const useRegisterUser = () => {
   const router = useRouter();

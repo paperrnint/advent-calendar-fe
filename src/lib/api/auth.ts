@@ -1,10 +1,10 @@
+import { fetcher } from './axios';
 import {
   ApiResponse,
   CurrentUserResponse,
   UserRegisterRequest,
   UserRegisterResponse,
 } from '@/types/api';
-import { fetcher } from './axios';
 
 /**
  * 신규 유저 등록 API

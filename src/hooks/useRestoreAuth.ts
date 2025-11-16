@@ -1,8 +1,9 @@
-import { getCurrentUser } from '@/lib/api/auth';
-import { authLoadingAtom, userAtom } from '@/stores/authStore';
 import { useQuery } from '@tanstack/react-query';
 import { useSetAtom } from 'jotai';
 import { useEffect } from 'react';
+
+import { getCurrentUser } from '@/lib/api/auth';
+import { authLoadingAtom, userAtom } from '@/stores/authStore';
 
 export const useRestoreAuth = () => {
   const setUser = useSetAtom(userAtom);
