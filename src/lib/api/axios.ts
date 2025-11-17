@@ -1,21 +1,56 @@
 import axios, { AxiosError, AxiosRequestConfig } from 'axios';
 
+import { RefreshManager } from '@/models/RefreshManager';
+
 const baseURL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
+const refreshManager = new RefreshManager();
 
 export const axiosInstance = axios.create({
   baseURL,
-  timeout: 1000,
+  timeout: 3000,
   withCredentials: true,
   headers: {
     'Content-Type': 'application/json',
   },
 });
 
+const refreshClient = axios.create({
+  baseURL,
+  withCredentials: true,
+});
+
 axiosInstance.interceptors.response.use(
   (response) => {
     return response;
   },
-  (error: AxiosError) => {
+  async (error: AxiosError) => {
+    // 401 error - refresh token
+    const originalRequest = error.config as AxiosRequestConfig & {
+      _retry?: boolean;
+    };
+
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+
+      if (refreshManager.refreshing) {
+        await refreshManager.addToQueue();
+        return axiosInstance(originalRequest);
+      }
+
+      refreshManager.startRefresh();
+
+      try {
+        await refreshClient.post('/api/auth/refresh');
+        refreshManager.processQueue(null);
+        return axiosInstance(originalRequest);
+      } catch (refreshError) {
+        refreshManager.processQueue(refreshError as Error);
+        return Promise.reject(refreshError);
+      } finally {
+        refreshManager.endRefresh();
+      }
+    }
+
     // extract message from error response
     const hasErrorMessage =
       error.response?.data &&
@@ -39,8 +74,8 @@ axiosInstance.interceptors.response.use(
 );
 
 export const fetcher = async <T>(config: AxiosRequestConfig): Promise<T> => {
-  const { data } = await axiosInstance(config);
-  return data;
+  const response = await axiosInstance<T>(config);
+  return response.data;
 };
 
 export default axiosInstance;
