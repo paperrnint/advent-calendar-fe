@@ -1,9 +1,7 @@
-'use client';
-
 import Image from 'next/image';
 
 import { Calendar } from '@/components/Calendar/Calendar';
-import { LoginButton } from '@/components/LoginButton/LoginButton';
+import { HomeAction } from '@/components/HomeAction/HomeAction';
 import { Ribbon } from '@/components/Ribbon/Ribbon';
 
 export default function Home() {
@@ -27,9 +25,8 @@ export default function Home() {
           </h1>
         </header>
 
-        <section className="flex w-full shrink-0 flex-col gap-3 p-4" aria-label="로그인 버튼">
-          <LoginButton type="naver" />
-          <LoginButton type="kakao" />
+        <section className="flex w-full shrink-0 flex-col p-4">
+          <HomeAction />
         </section>
       </div>
     </div>
