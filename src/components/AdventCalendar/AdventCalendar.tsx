@@ -2,6 +2,7 @@
 
 import { useAtomValue } from 'jotai';
 
+import { getCalendarActionProps } from './AdventCalendar.helpers';
 import { Calendar } from '../Calendar/Calendar';
 import { CalendarAction } from '../CalendarAction/CalendarAction';
 import { NavigationBar } from '../NavigationBar/NavigationBar';
@@ -16,14 +17,12 @@ interface Props {
 
 export const AdventCalendar = ({ owner, pageUuid }: Props) => {
   const curUser = useAtomValue(userAtom);
-  const isLoggedIn = curUser.isAuthenticated;
-  const isOwner = isLoggedIn && curUser.uuid === pageUuid;
-
-  console.log(curUser);
+  const isOwner = curUser.isAuthenticated && curUser.uuid === pageUuid;
+  const calendarActionProps = getCalendarActionProps(curUser, pageUuid);
 
   return (
     <div className="h-dvh max-w-md">
-      <NavigationBar isAuthenticated={isLoggedIn} />
+      <NavigationBar isAuthenticated={curUser.isAuthenticated} />
 
       {/* 어드벤트 캘린더 */}
       <div className="mb-4 px-4 py-2 pt-15">
@@ -38,7 +37,7 @@ export const AdventCalendar = ({ owner, pageUuid }: Props) => {
 
       {/* actions */}
       <div className="flex items-center justify-center p-4">
-        <CalendarAction isLoggedIn={isLoggedIn} isOwner={isOwner} userUuid={curUser.uuid} />
+        <CalendarAction {...calendarActionProps} />
       </div>
     </div>
   );

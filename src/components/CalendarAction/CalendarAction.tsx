@@ -1,11 +1,25 @@
 import { LinkButton } from '../LinkButton/LinkButton';
 import { ShareButton } from '../ShareButton/ShareButton';
 
-interface Props {
-  isLoggedIn: boolean;
-  isOwner: boolean;
-  userUuid: string | null;
+export interface NotLoggedInProps {
+  isLoggedIn: false;
+  isOwner: false;
+  userUuid: null;
 }
+
+export interface OwnerProps {
+  isLoggedIn: true;
+  isOwner: true;
+  userUuid: string;
+}
+
+export interface GuestProps {
+  isLoggedIn: true;
+  isOwner: false;
+  userUuid: string;
+}
+
+type Props = NotLoggedInProps | OwnerProps | GuestProps;
 
 export const CalendarAction = ({ isLoggedIn, isOwner, userUuid }: Props) => {
   // 로그인 되어 있지 않음 -> 회원가입/로그인 페이지로
