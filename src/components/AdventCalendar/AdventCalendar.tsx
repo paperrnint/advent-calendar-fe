@@ -28,7 +28,12 @@ export const AdventCalendar = ({ owner, pageUuid }: Props) => {
       {/* 어드벤트 캘린더 */}
       <div className="mb-4 px-4 py-2 pt-15">
         <Ribbon name={owner.name} color={owner.color} />
-        <Calendar uuid={pageUuid} today="2025-12-09" isOwner={isOwner} ownerName={owner.name} />
+        <Calendar
+          isDev={process.env.NODE_ENV === 'development'}
+          uuid={pageUuid}
+          isOwner={isOwner}
+          ownerName={owner.name}
+        />
       </div>
 
       {/* actions */}
