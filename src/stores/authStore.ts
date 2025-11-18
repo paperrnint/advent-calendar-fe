@@ -2,12 +2,19 @@ import { atom } from 'jotai';
 
 import { RibbonColor } from '@/constants';
 
-export interface UserState {
-  uuid: string | null;
-  name: string | null;
-  color: RibbonColor | null;
-  isAuthenticated: boolean;
-}
+export type UserState =
+  | {
+      isAuthenticated: false;
+      uuid: null;
+      name: null;
+      color: null;
+    }
+  | {
+      isAuthenticated: true;
+      uuid: string;
+      name: string;
+      color: RibbonColor;
+    };
 
 const initialState: UserState = {
   uuid: null,
