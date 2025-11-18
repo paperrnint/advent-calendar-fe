@@ -33,8 +33,12 @@ axiosInstance.interceptors.response.use(
       originalRequest._retry = true;
 
       if (refreshManager.refreshing) {
-        await refreshManager.addToQueue();
-        return axiosInstance(originalRequest);
+        try {
+          await refreshManager.addToQueue();
+          return axiosInstance(originalRequest);
+        } catch (queueError) {
+          return Promise.reject(queueError);
+        }
       }
 
       refreshManager.startRefresh();
@@ -45,6 +49,12 @@ axiosInstance.interceptors.response.use(
         return axiosInstance(originalRequest);
       } catch (refreshError) {
         refreshManager.processQueue(refreshError as Error);
+
+        // refresh 실패 시 이벤트 발생 (-> 로그아웃 처리)
+        if (typeof window !== 'undefined') {
+          window.dispatchEvent(new CustomEvent('auth:refresh-failed'));
+        }
+
         return Promise.reject(refreshError);
       } finally {
         refreshManager.endRefresh();

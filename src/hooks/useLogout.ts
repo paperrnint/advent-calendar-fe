@@ -27,7 +27,7 @@ export const useLogout = () => {
         isAuthenticated: false,
       });
 
-      queryClient.invalidateQueries({ queryKey: ['auth'] }); // 캐시된 쿼리 무효화
+      queryClient.clear();
       router.push('/');
       toast.success('로그아웃 완료!');
     },
@@ -43,6 +43,7 @@ export const useLogout = () => {
         isAuthenticated: false,
       });
 
+      queryClient.clear();
       router.push('/');
     },
     onSettled: () => {
