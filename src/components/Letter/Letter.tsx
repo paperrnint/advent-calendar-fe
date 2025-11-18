@@ -54,7 +54,7 @@ const LetterContent = ({ children, fixedHeight }: ContentProps) => {
 const LetterFooter = ({ from, date }: FooterProps) => {
   return (
     <div className="flex items-center justify-end gap-2 text-neutral-600">
-      <p>{date}</p>
+      <p>{date},</p>
       <p>{from} 씀</p>
     </div>
   );

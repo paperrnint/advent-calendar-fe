@@ -1,5 +1,6 @@
 'use client';
 
+import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
@@ -15,9 +16,10 @@ import { useLetters } from '@/hooks/useLetters';
 import { isBefore } from '@/utils/dayjs';
 
 type BaseProps = {
-  today: string;
+  today?: string;
   isOwner: boolean;
   ownerName: string;
+  isDev?: boolean;
 };
 
 type PreviewProps = BaseProps & {
@@ -35,7 +37,9 @@ type RealProps = BaseProps & {
 type Props = PreviewProps | RealProps;
 
 export const Calendar = (props: Props) => {
-  const { today, isOwner, ownerName } = props;
+  const { isOwner, ownerName } = props;
+  const isDev = props.isDev || false;
+  const today = props.today || dayjs().format('YYYY-MM-DD');
   const hideInfo = 'hideInfo' in props ? props.hideInfo : false;
   const hideDay = 'hideDay' in props ? props.hideDay : false;
   const uuid = 'uuid' in props ? props.uuid : undefined;
@@ -60,6 +64,11 @@ export const Calendar = (props: Props) => {
   const messages = isOwner ? CALENDAR_INFO_MESSAGES.owner : CALENDAR_INFO_MESSAGES.guest;
 
   const isDayDisabled = (date: string) => {
+    // dev 환경에서는 항상 enabled
+    if (isDev) {
+      return false;
+    }
+
     const isDateFuture = isBefore(date, today);
     return isOwner ? isDateFuture : !isDateFuture;
   };
