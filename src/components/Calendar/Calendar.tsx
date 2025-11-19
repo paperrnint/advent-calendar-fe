@@ -13,7 +13,7 @@ import { LetterCarousel } from '../LetterCarousel/LetterCarousel';
 import { Modal } from '../Modal/Modal';
 import { WriteLetter } from '../WriteLetter/WriteLetter';
 import { useLetters } from '@/hooks/useLetters';
-import { isBefore } from '@/utils/dayjs';
+import { isDayDisabled } from '@/utils/dayjs';
 
 type BaseProps = {
   today?: string;
@@ -56,22 +56,11 @@ export const Calendar = (props: Props) => {
     enabled: !!uuid && isOwner && openDay !== null,
   });
 
+  const messages = isOwner ? CALENDAR_INFO_MESSAGES.owner : CALENDAR_INFO_MESSAGES.guest;
   const days = Array.from({ length: 25 }, (_, i) => ({
     date: `2025-12-${i + 1}`,
     day: i + 1,
   }));
-
-  const messages = isOwner ? CALENDAR_INFO_MESSAGES.owner : CALENDAR_INFO_MESSAGES.guest;
-
-  const isDayDisabled = (date: string) => {
-    // dev 환경에서는 항상 enabled
-    if (isDev) {
-      return false;
-    }
-
-    const isDateFuture = isBefore(date, today);
-    return isOwner ? isDateFuture : !isDateFuture;
-  };
 
   const onClickDay = (day: number) => {
     if (!uuid) return;
@@ -101,7 +90,11 @@ export const Calendar = (props: Props) => {
 
       <div className="grid grid-cols-5 gap-2">
         {days.map(({ date, day }) => (
-          <Flap key={day} disabled={isDayDisabled(date)} onClick={() => onClickDay(day)}>
+          <Flap
+            key={day}
+            disabled={isDayDisabled(date, today, isOwner, isDev)}
+            onClick={() => onClickDay(day)}
+          >
             <Icon number={day} />
             {!hideDay && <span className="font-jeju absolute right-1 bottom-1 text-xs">{day}</span>}
           </Flap>

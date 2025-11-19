@@ -29,3 +29,17 @@ export const isBefore = (
 
   return base.isBefore(target);
 };
+
+export const isDayDisabled = (
+  date: string,
+  today: string,
+  isOwner: boolean,
+  isDev: boolean = false,
+): boolean => {
+  if (isDev) {
+    return false;
+  }
+
+  const isDateFuture = isBefore(date, today);
+  return isOwner ? isDateFuture : !isDateFuture;
+};
