@@ -13,7 +13,7 @@ import { LetterCarousel } from '../LetterCarousel/LetterCarousel';
 import { Modal } from '../Modal/Modal';
 import { WriteLetter } from '../WriteLetter/WriteLetter';
 import { useLetters } from '@/hooks/useLetters';
-import { isDayDisabled } from '@/utils/dayjs';
+import { isDayDisabled } from '@/utils';
 
 type BaseProps = {
   today?: string;
@@ -110,7 +110,7 @@ export const Calendar = (props: Props) => {
               <Envelope.Seal day={openDay || 1} />
             </Envelope.Container>
           ) : (
-            uuid && (
+            !!uuid && (
               <WriteLetter to={ownerName} day={openDay || 1} uuid={uuid} onClose={onCloseModal} />
             )
           )}
