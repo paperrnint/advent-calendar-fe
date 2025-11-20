@@ -1,6 +1,7 @@
 import { useAtomValue } from 'jotai';
 import { Gift, LogIn, LogOut, Trash2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import React from 'react';
 
 import { DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator } from '../ui/dropdown-menu';
 import { useLogout } from '@/hooks/useLogout';
