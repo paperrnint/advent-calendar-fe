@@ -1,4 +1,5 @@
 import { ApiResponse } from '@/types/api';
+import { captureApiError } from '@/utils';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
 
@@ -19,6 +20,14 @@ export const fetchApi = async <T>(
   const response = await fetch(url, options);
 
   if (!response.ok) {
+    const error = new Error(`API error: ${response.status}`);
+
+    captureApiError(error, {
+      url,
+      method: options?.method ?? 'GET',
+      status: response.status,
+    });
+
     throw new Error(`API error: ${response.status}`);
   }
 

@@ -1,6 +1,7 @@
 import axios, { AxiosError, AxiosRequestConfig } from 'axios';
 
 import { RefreshManager } from '@/models/RefreshManager';
+import { captureAxiosError } from '@/utils';
 
 const baseURL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
 const refreshManager = new RefreshManager();
@@ -24,6 +25,9 @@ axiosInstance.interceptors.response.use(
     return response;
   },
   async (error: AxiosError) => {
+    // error tracking
+    captureAxiosError(error);
+
     // 401 error - refresh token
     const originalRequest = error.config as AxiosRequestConfig & {
       _retry?: boolean;
