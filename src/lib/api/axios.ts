@@ -50,8 +50,12 @@ axiosInstance.interceptors.response.use(
       } catch (refreshError) {
         refreshManager.processQueue(refreshError as Error);
 
-        // refresh 실패 시 이벤트 발생 (-> 로그아웃 처리)
-        if (typeof window !== 'undefined') {
+        // refresh 요청이 401로 실패한 경우에만 이벤트 발생
+        // (로그아웃 상태가 아니었는데 세션이 만료된 경우)
+        const isRefreshTokenExpired =
+          axios.isAxiosError(refreshError) && refreshError.response?.status === 401;
+
+        if (isRefreshTokenExpired && typeof window !== 'undefined') {
           window.dispatchEvent(new CustomEvent('auth:refresh-failed'));
         }
 
