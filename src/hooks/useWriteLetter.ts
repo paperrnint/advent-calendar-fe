@@ -17,7 +17,10 @@ export const useWriteLetter = ({ uuid, onClose, onSuccess }: Props) => {
     mutationFn: (data: WriteLetterRequest) => writeLetter(uuid, data),
     onSuccess: () => {
       toast.success('편지를 성공적으로 전송했어요');
+
       queryClient.invalidateQueries({ queryKey: ['letters', uuid] });
+      queryClient.invalidateQueries({ queryKey: ['letterCount', uuid] });
+
       onSuccess?.();
       onClose?.();
     },

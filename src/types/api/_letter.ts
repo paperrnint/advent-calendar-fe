@@ -12,3 +12,7 @@ export type LetterResponse = {
 };
 
 export type LettersResponse = LetterResponse[];
+
+export type LetterCountResponse = {
+  counts: Record<string, number>;
+};

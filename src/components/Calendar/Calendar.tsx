@@ -10,8 +10,10 @@ import { Flap } from '../Flap/Flap';
 import { Icon } from '../Icon/Icon';
 import { Info } from '../Info/Info';
 import { LetterCarousel } from '../LetterCarousel/LetterCarousel';
+import { LetterCountBadge } from '../LetterCountBadge/LetterCountBadge';
 import { Modal } from '../Modal/Modal';
 import { WriteLetter } from '../WriteLetter/WriteLetter';
+import { useLetterCount } from '@/hooks/useLetterCount';
 import { useLetters } from '@/hooks/useLetters';
 import { isDayDisabled } from '@/utils';
 
@@ -45,6 +47,7 @@ export const Calendar = (props: Props) => {
   const uuid = 'uuid' in props ? props.uuid : undefined;
 
   const [openDay, setOpenDay] = useState<number | null>(null);
+  const { data: countData } = useLetterCount({ uuid: uuid || '' });
   const {
     data: letters,
     isLoading,
@@ -56,6 +59,7 @@ export const Calendar = (props: Props) => {
     enabled: !!uuid && isOwner && openDay !== null,
   });
 
+  const letterCounts = countData?.data.counts || {};
   const messages = isOwner ? CALENDAR_INFO_MESSAGES.owner : CALENDAR_INFO_MESSAGES.guest;
   const days = Array.from({ length: 25 }, (_, i) => ({
     date: `2025-12-${i + 1}`,
@@ -89,16 +93,21 @@ export const Calendar = (props: Props) => {
       )}
 
       <div className="grid grid-cols-5 gap-2">
-        {days.map(({ date, day }) => (
-          <Flap
-            key={day}
-            disabled={isDayDisabled(date, today, isOwner, isDev)}
-            onClick={() => onClickDay(day)}
-          >
-            <Icon number={day} />
-            {!hideDay && <span className="font-jeju absolute right-1 bottom-1 text-xs">{day}</span>}
-          </Flap>
-        ))}
+        {days.map(({ date, day }) => {
+          const count = letterCounts[String(day)] || 0;
+          const isDisabled = isDayDisabled(date, today, isOwner, isDev);
+          const shouldShowBadge = !isOwner && !isDisabled;
+
+          return (
+            <Flap key={day} disabled={isDisabled} onClick={() => onClickDay(day)}>
+              <Icon number={day} />
+              {!hideDay && (
+                <span className="font-jeju absolute right-1 bottom-1 text-xs">{day}</span>
+              )}
+              {shouldShowBadge && <LetterCountBadge count={count} />}
+            </Flap>
+          );
+        })}
 
         <Modal isOpen={openDay !== null} onClose={onCloseModal}>
           {isOwner ? (
