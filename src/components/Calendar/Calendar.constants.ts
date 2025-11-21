@@ -8,3 +8,9 @@ export const CALENDAR_INFO_MESSAGES = {
     subtitle: '마음에 드는 숫자를 선택하면 편지를 보낼 수 있어요 💌',
   },
 } as const;
+
+export const CALENDAR_CONFIG = {
+  TOTAL_DAYS: 25,
+  YEAR: 2025,
+  MONTH: 12,
+} as const;
