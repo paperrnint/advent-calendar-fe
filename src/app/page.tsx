@@ -1,17 +1,17 @@
 import Image from 'next/image';
 
-import { Calendar } from '@/components/Calendar/Calendar';
 import { HomeAction } from '@/components/HomeAction/HomeAction';
+import { PreviewCalendar } from '@/components/PreviewCalendar/PreviewCalendar';
 import { Ribbon } from '@/components/Ribbon/Ribbon';
 
 export default function Home() {
   return (
     <div className="relative h-dvh w-full max-w-md">
       {/* 배경 레이어 */}
-      <div className="pointer-events-none absolute top-0 right-0 bottom-[164px] left-0 flex items-center justify-center p-8 opacity-30 blur-xs">
+      <div className="absolute top-0 right-0 bottom-[164px] left-0 flex items-center justify-center p-8 opacity-30 blur-xs">
         <div>
           <Ribbon color="green" />
-          <Calendar hideInfo hideDay today="2025-10-31" isOwner={false} ownerName="산타" />
+          <PreviewCalendar />
         </div>
       </div>
 

@@ -1,79 +1,52 @@
 'use client';
 
 import dayjs from 'dayjs';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { toast } from 'sonner';
 
 import { CALENDAR_INFO_MESSAGES } from './Calendar.constants';
+import { CalendarProps } from './Calendar.types';
+import { CalendarDay } from '../CalendarDay/CalendarDay';
 import { Envelope } from '../Envelope/Envelope';
-import { Flap } from '../Flap/Flap';
-import { Icon } from '../Icon/Icon';
 import { Info } from '../Info/Info';
 import { LetterCarousel } from '../LetterCarousel/LetterCarousel';
-import { LetterCountBadge } from '../LetterCountBadge/LetterCountBadge';
 import { Modal } from '../Modal/Modal';
 import { WriteLetter } from '../WriteLetter/WriteLetter';
 import { useLetterCount } from '@/hooks/useLetterCount';
 import { useLetters } from '@/hooks/useLetters';
-import { isDayDisabled } from '@/utils';
+import { generateCalendarDays, isDayDisabled } from '@/utils';
 
-type BaseProps = {
-  today?: string;
-  isOwner: boolean;
-  ownerName: string;
-  isDev?: boolean;
-};
-
-type PreviewProps = BaseProps & {
-  hideInfo: true;
-  hideDay: true;
-  uuid?: never;
-};
-
-type RealProps = BaseProps & {
-  uuid: string;
-  hideInfo?: boolean;
-  hideDay?: boolean;
-};
-
-type Props = PreviewProps | RealProps;
-
-export const Calendar = (props: Props) => {
-  const { isOwner, ownerName } = props;
-  const isDev = props.isDev || false;
-  const today = props.today || dayjs().format('YYYY-MM-DD');
-  const hideInfo = 'hideInfo' in props ? props.hideInfo : false;
-  const hideDay = 'hideDay' in props ? props.hideDay : false;
-  const uuid = 'uuid' in props ? props.uuid : undefined;
-
+export const Calendar = ({
+  uuid,
+  isOwner,
+  ownerName,
+  today = dayjs().format('YYYY-MM-DD'),
+  isDev = false,
+}: CalendarProps) => {
   const [openDay, setOpenDay] = useState<number | null>(null);
-  const { data: countData } = useLetterCount({ uuid: uuid || '' });
+  const { data: countData } = useLetterCount({ uuid });
   const {
     data: letters,
     isLoading,
     isError,
     error,
   } = useLetters({
-    uuid: uuid || '',
+    uuid,
     day: openDay || 1,
-    enabled: !!uuid && isOwner && openDay !== null,
+    enabled: isOwner && openDay !== null,
   });
 
   const letterCounts = countData?.data.counts || {};
   const messages = isOwner ? CALENDAR_INFO_MESSAGES.owner : CALENDAR_INFO_MESSAGES.guest;
-  const days = Array.from({ length: 25 }, (_, i) => ({
-    date: `2025-12-${i + 1}`,
-    day: i + 1,
-  }));
+  const days = useMemo(() => generateCalendarDays(), []);
 
-  const onClickDay = (day: number) => {
-    if (!uuid) return;
+  const onClickDay = useCallback((day: number) => {
     setOpenDay(day);
-  };
+  }, []);
 
-  const onCloseModal = () => {
+  const onCloseModal = useCallback(() => {
     setOpenDay(null);
-  };
+  }, []);
 
   useEffect(() => {
     if (isError && error) {
@@ -83,14 +56,13 @@ export const Calendar = (props: Props) => {
 
   return (
     <div className="bg-background-beige rounded-lg p-4">
-      {!hideInfo && (
-        <div className="mb-4">
-          <Info>
-            <p className="text-center">{messages.title}</p>
-            <p className="text-center">{messages.subtitle}</p>
-          </Info>
-        </div>
-      )}
+      {/* info */}
+      <div className="mb-4">
+        <Info>
+          <p className="text-center">{messages.title}</p>
+          <p className="text-center">{messages.subtitle}</p>
+        </Info>
+      </div>
 
       <div className="grid grid-cols-5 gap-2">
         {days.map(({ date, day }) => {
@@ -99,13 +71,14 @@ export const Calendar = (props: Props) => {
           const shouldShowBadge = !isOwner && !isDisabled;
 
           return (
-            <Flap key={day} disabled={isDisabled} onClick={() => onClickDay(day)}>
-              <Icon number={day} />
-              {!hideDay && (
-                <span className="font-jeju absolute right-1 bottom-1 text-xs">{day}</span>
-              )}
-              {shouldShowBadge && <LetterCountBadge count={count} />}
-            </Flap>
+            <CalendarDay
+              key={day}
+              day={day}
+              isDisabled={isDisabled}
+              letterCount={count}
+              showBadge={shouldShowBadge}
+              onDayClick={onClickDay}
+            />
           );
         })}
 
@@ -119,9 +92,7 @@ export const Calendar = (props: Props) => {
               <Envelope.Seal day={openDay || 1} />
             </Envelope.Container>
           ) : (
-            !!uuid && (
-              <WriteLetter to={ownerName} day={openDay || 1} uuid={uuid} onClose={onCloseModal} />
-            )
+            <WriteLetter to={ownerName} day={openDay ?? 1} uuid={uuid} onClose={onCloseModal} />
           )}
         </Modal>
       </div>
