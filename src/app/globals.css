@@ -38,6 +38,7 @@
   --foreground: #171717;
   --primary-red: #d66c48;
   --primary-green: #6d865c;
+  --primary-brown: #7f623e;
   --background-beige: #fff8ed;
   --letter-100: #fff8ed;
   --letter-200: #f9eedf;
@@ -74,6 +75,7 @@
   --color-foreground: var(--foreground);
   --color-primary-red: var(--primary-red);
   --color-primary-green: var(--primary-green);
+  --color-primary-brown: var(--primary-brown);
   --color-background-beige: var(--background-beige);
   --color-letter-100: var(--letter-100);
   --color-letter-200: var(--letter-200);
