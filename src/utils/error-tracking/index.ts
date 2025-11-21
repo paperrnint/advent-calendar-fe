@@ -16,8 +16,8 @@ interface ApiErrorContext {
 export const captureApiError = (error: Error | AxiosError, context: ApiErrorContext) => {
   const { url, method, status, requestData, responseData } = context;
 
-  // 인증 에러 제외
-  if (status === 401 || status === 403) {
+  // 4xx 에러 제외
+  if (status && status >= 400 && status < 500) {
     return;
   }
 
