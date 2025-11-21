@@ -1,17 +1,15 @@
 'use client';
 
 import dayjs from 'dayjs';
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { toast } from 'sonner';
 
 import { CALENDAR_INFO_MESSAGES } from './Calendar.constants';
 import { CalendarProps } from './Calendar.types';
+import { CalendarDay } from '../CalendarDay/CalendarDay';
 import { Envelope } from '../Envelope/Envelope';
-import { Flap } from '../Flap/Flap';
-import { Icon } from '../Icon/Icon';
 import { Info } from '../Info/Info';
 import { LetterCarousel } from '../LetterCarousel/LetterCarousel';
-import { LetterCountBadge } from '../LetterCountBadge/LetterCountBadge';
 import { Modal } from '../Modal/Modal';
 import { WriteLetter } from '../WriteLetter/WriteLetter';
 import { useLetterCount } from '@/hooks/useLetterCount';
@@ -42,13 +40,13 @@ export const Calendar = ({
   const messages = isOwner ? CALENDAR_INFO_MESSAGES.owner : CALENDAR_INFO_MESSAGES.guest;
   const days = useMemo(() => generateCalendarDays(), []);
 
-  const onClickDay = (day: number) => {
+  const onClickDay = useCallback((day: number) => {
     setOpenDay(day);
-  };
+  }, []);
 
-  const onCloseModal = () => {
+  const onCloseModal = useCallback(() => {
     setOpenDay(null);
-  };
+  }, []);
 
   useEffect(() => {
     if (isError && error) {
@@ -73,11 +71,14 @@ export const Calendar = ({
           const shouldShowBadge = !isOwner && !isDisabled;
 
           return (
-            <Flap key={day} disabled={isDisabled} onClick={() => onClickDay(day)}>
-              <Icon number={day} />
-              <span className="font-jeju absolute right-1 bottom-1 text-xs">{day}</span>
-              {shouldShowBadge && <LetterCountBadge count={count} />}
-            </Flap>
+            <CalendarDay
+              key={day}
+              day={day}
+              isDisabled={isDisabled}
+              letterCount={count}
+              showBadge={shouldShowBadge}
+              onDayClick={onClickDay}
+            />
           );
         })}
 
