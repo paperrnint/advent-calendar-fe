@@ -12,7 +12,7 @@ export default function NotFound() {
           해당 페이지는 존재하지 않거나 삭제되었을 수 있습니다.
         </p>
       </div>
-      <Image src="/images/santa-404.webp" width={160} height={206} alt="404 페이지" />
+      <Image src="/images/santa-404.webp" priority width={160} height={206} alt="404 페이지" />
       <LinkButton href="/">홈으로</LinkButton>
     </div>
   );

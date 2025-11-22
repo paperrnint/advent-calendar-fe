@@ -18,7 +18,14 @@ export default function Home() {
       {/* 컨텐츠 레이어 */}
       <div className="relative z-10 flex h-full flex-col">
         <header className="mt-6 flex flex-1 flex-col items-center justify-center pb-14">
-          <Image priority src="/images/santa-face.webp" width={120} height={120} alt="산타" />
+          <Image
+            priority
+            src="/images/santa-face.webp"
+            width={222}
+            height={200}
+            alt="산타"
+            className="h-auto w-[120px]" // CSS로 렌더링 크기 조정
+          />
           <h1 className="font-jeju text-center text-2xl leading-9 text-neutral-800">
             <span className="block">2 0 2 5</span>
             <span className="block">Advent Calendar</span>

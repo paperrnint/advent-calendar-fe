@@ -36,7 +36,6 @@ export const Palette = ({ initialColor, onUpdate }: Props) => {
             alt="리본 장식"
             fill
             sizes="(max-width: 768px) 48px, 96px"
-            quality={90}
             className="object-cover object-center"
             style={{
               filter: ribbonFilter[color],

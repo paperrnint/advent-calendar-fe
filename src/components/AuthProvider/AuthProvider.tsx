@@ -12,7 +12,7 @@ export const AuthProvider = ({ children }: Props) => {
   useRefreshFailed();
 
   if (isLoading) {
-    console.log('유저 로그인 정보 가져오는 중..');
+    // console.log('유저 로그인 정보 가져오는 중..');
   }
 
   return <>{children}</>;

@@ -48,6 +48,8 @@ export default function NewPage() {
             <Form.Form>
               <Form.InlineContainer>
                 <Form.Input
+                  id="name"
+                  autoComplete="name"
                   value={name}
                   placeholder="이름 (1-10자)"
                   onChange={updateName}
