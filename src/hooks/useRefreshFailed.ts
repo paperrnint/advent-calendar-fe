@@ -1,5 +1,5 @@
 import { useQueryClient } from '@tanstack/react-query';
-import { useSetAtom } from 'jotai';
+import { useAtom } from 'jotai';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
@@ -7,12 +7,16 @@ import { toast } from 'sonner';
 import { userAtom } from '@/stores/authStore';
 
 export const useRefreshFailed = () => {
-  const setUser = useSetAtom(userAtom);
+  const [user, setUser] = useAtom(userAtom);
   const queryClient = useQueryClient();
   const router = useRouter();
 
   useEffect(() => {
     const handleRefreshFailed = () => {
+      if (!user.isAuthenticated) {
+        return;
+      }
+
       setUser({
         uuid: null,
         name: null,
@@ -32,5 +36,5 @@ export const useRefreshFailed = () => {
         window.removeEventListener('auth:refresh-failed', handleRefreshFailed);
       };
     }
-  }, [queryClient, router, setUser]);
+  }, [queryClient, router, setUser, user.isAuthenticated]);
 };
