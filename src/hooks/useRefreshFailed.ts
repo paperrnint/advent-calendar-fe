@@ -1,5 +1,5 @@
 import { useQueryClient } from '@tanstack/react-query';
-import { useAtom, useSetAtom } from 'jotai';
+import { useAtom } from 'jotai';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
@@ -8,7 +8,6 @@ import { userAtom } from '@/stores/authStore';
 
 export const useRefreshFailed = () => {
   const [user, setUser] = useAtom(userAtom);
-  // const setUser = useSetAtom(userAtom);
   const queryClient = useQueryClient();
   const router = useRouter();
 
