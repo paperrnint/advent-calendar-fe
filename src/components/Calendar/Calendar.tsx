@@ -18,6 +18,7 @@ import { generateCalendarDays, isDayDisabled } from '@/utils';
 
 export const Calendar = ({
   uuid,
+  isAuthLoading,
   isOwner,
   ownerName,
   today = dayjs().format('YYYY-MM-DD'),
@@ -58,7 +59,7 @@ export const Calendar = ({
     <div className="bg-background-beige rounded-lg p-4">
       {/* info */}
       <div className="mb-4">
-        <Info>
+        <Info isLoading={isAuthLoading}>
           <p className="text-center">{messages.title}</p>
           <p className="text-center">{messages.subtitle}</p>
         </Info>
@@ -68,7 +69,7 @@ export const Calendar = ({
         {days.map(({ date, day }) => {
           const count = letterCounts[String(day)] || 0;
           const isDisabled = isDayDisabled(date, today, isOwner, isDev);
-          const shouldShowBadge = !isOwner && !isDisabled;
+          const shouldShowBadge = !isAuthLoading && !isOwner && !isDisabled;
 
           return (
             <CalendarDay

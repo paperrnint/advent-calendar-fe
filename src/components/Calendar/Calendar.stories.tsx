@@ -18,6 +18,7 @@ export const OwnerCalendar: Story = {
   args: {
     today: '2025-12-09',
     uuid: 'test-uuid',
+    isAuthLoading: false,
     isOwner: true,
     ownerName: '산타',
   },
@@ -35,6 +36,7 @@ export const GuestCalendar: Story = {
   args: {
     today: '2025-12-09',
     uuid: 'test-uuid',
+    isAuthLoading: false,
     isOwner: false,
     ownerName: '산타',
   },
@@ -53,6 +55,7 @@ export const DevOwnerCalendar: Story = {
     isDev: true,
     today: '2025-12-09',
     uuid: 'test-uuid',
+    isAuthLoading: false,
     isOwner: true,
     ownerName: '산타',
   },
@@ -71,6 +74,7 @@ export const DevGuestCalendar: Story = {
     isDev: true,
     today: '2025-12-09',
     uuid: 'test-uuid',
+    isAuthLoading: false,
     isOwner: false,
     ownerName: '산타',
   },
@@ -87,6 +91,7 @@ export const DevGuestCalendar: Story = {
 export const RealDateOwnerCalendar: Story = {
   args: {
     uuid: 'test-uuid',
+    isAuthLoading: false,
     isOwner: true,
     ownerName: '산타',
   },
@@ -103,6 +108,7 @@ export const RealDateOwnerCalendar: Story = {
 export const RealDateGuestCalendar: Story = {
   args: {
     uuid: 'test-uuid',
+    isAuthLoading: false,
     isOwner: false,
     ownerName: '산타',
   },
@@ -112,5 +118,14 @@ export const RealDateGuestCalendar: Story = {
         story: '**게스트가 보는 화면 (실제 날짜)** - 실제 날짜를 적용한 게스트가 보는 화면입니다.',
       },
     },
+  },
+};
+
+export const LoadingCalendar: Story = {
+  args: {
+    uuid: 'test-uuid',
+    isAuthLoading: true,
+    isOwner: false,
+    ownerName: '산타',
   },
 };

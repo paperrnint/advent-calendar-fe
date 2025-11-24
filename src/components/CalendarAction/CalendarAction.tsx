@@ -2,18 +2,21 @@ import { LinkButton } from '../LinkButton/LinkButton';
 import { ShareButton } from '../ShareButton/ShareButton';
 
 export interface NotLoggedInProps {
+  isLoading: boolean;
   isLoggedIn: false;
   isOwner: false;
   userUuid: null;
 }
 
 export interface OwnerProps {
+  isLoading: boolean;
   isLoggedIn: true;
   isOwner: true;
   userUuid: string;
 }
 
 export interface GuestProps {
+  isLoading: boolean;
   isLoggedIn: true;
   isOwner: false;
   userUuid: string;
@@ -21,7 +24,12 @@ export interface GuestProps {
 
 type Props = NotLoggedInProps | OwnerProps | GuestProps;
 
-export const CalendarAction = ({ isLoggedIn, isOwner, userUuid }: Props) => {
+export const CalendarAction = ({ isLoading, isLoggedIn, isOwner, userUuid }: Props) => {
+  // 로딩 -> 표시 X
+  if (isLoading) {
+    return null;
+  }
+
   // 로그인 되어 있지 않음 -> 회원가입/로그인 페이지로
   if (!isLoggedIn) {
     return <LinkButton href="/">내 어드벤트 캘린더 만들기</LinkButton>;

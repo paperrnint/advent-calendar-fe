@@ -4,6 +4,12 @@ import { RibbonColor } from '@/constants';
 
 export type UserState =
   | {
+      isAuthenticated: 'unknown';
+      uuid: null;
+      name: null;
+      color: null;
+    }
+  | {
       isAuthenticated: false;
       uuid: null;
       name: null;
@@ -20,7 +26,7 @@ const initialState: UserState = {
   uuid: null,
   name: null,
   color: null,
-  isAuthenticated: false,
+  isAuthenticated: 'unknown',
 };
 
 export const userAtom = atom<UserState>(initialState);

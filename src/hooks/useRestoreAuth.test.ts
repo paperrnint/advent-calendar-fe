@@ -15,8 +15,27 @@ describe('useRestoreAuth', () => {
     vi.clearAllMocks();
   });
 
+  describe('초기 상태', () => {
+    it('초기 상태는 unknown이다', () => {
+      const { result } = renderHook(
+        () => {
+          const user = useAtomValue(userAtom);
+          return { user };
+        },
+        { wrapper: createWrapper() },
+      );
+
+      expect(result.current.user).toEqual({
+        uuid: null,
+        name: null,
+        color: null,
+        isAuthenticated: 'unknown',
+      });
+    });
+  });
+
   describe('성공 케이스', () => {
-    it('로그인된 사용자 정보를 불러온다', async () => {
+    it('로그인된 사용자 정보를 불러오고 상태를 true로 변경한다', async () => {
       const mockUser: UserData = {
         uuid: 'test-uuid',
         name: '테스트유저',
@@ -51,10 +70,10 @@ describe('useRestoreAuth', () => {
         color: 'green',
         isAuthenticated: true,
       });
-      expect(result.current.loading).toBe(false);
+      expect(result.current.auth.isLoading).toBe(false);
     });
 
-    it('로딩 중에는 authLoadingAtom이 true다', async () => {
+    it('로딩 중에는 isLoading이 true다', async () => {
       vi.mocked(authApi.getCurrentUser).mockImplementation(
         () =>
           new Promise((resolve) => {
@@ -82,18 +101,54 @@ describe('useRestoreAuth', () => {
 
       // 로딩 중
       await waitFor(() => {
-        expect(result.current.loading).toBe(true);
+        expect(result.current.auth.isLoading).toBe(true);
       });
 
       // 완료 후
       await waitFor(() => {
-        expect(result.current.loading).toBe(false);
+        expect(result.current.auth.isLoading).toBe(false);
       });
+    });
+
+    it('로딩 완료 후에만 상태가 업데이트된다', async () => {
+      const mockUser: UserData = {
+        uuid: 'test-uuid',
+        name: '테스트',
+        color: 'green',
+      };
+
+      vi.mocked(authApi.getCurrentUser).mockResolvedValue({
+        status: 200,
+        message: 'success',
+        data: mockUser,
+        timestamp: '2025-11-12T15:30:00',
+      });
+
+      const { result } = renderHook(
+        () => {
+          const auth = useRestoreAuth();
+          const user = useAtomValue(userAtom);
+          return { auth, user };
+        },
+        { wrapper: createWrapper() },
+      );
+
+      // 로딩 중에는 unknown 상태 유지
+      if (result.current.auth.isLoading) {
+        expect(result.current.user.isAuthenticated).toBe('unknown');
+      }
+
+      // 로딩 완료 후 true로 변경
+      await waitFor(() => {
+        expect(result.current.auth.isLoading).toBe(false);
+      });
+
+      expect(result.current.user.isAuthenticated).toBe(true);
     });
   });
 
   describe('미인증 케이스', () => {
-    it('401 에러 시 미인증 상태로 설정한다', async () => {
+    it('401 에러 시 미인증 상태(false)로 설정한다', async () => {
       const mockError = Object.assign(new Error('인증이 필요합니다'), {
         status: 401,
       });
@@ -122,12 +177,12 @@ describe('useRestoreAuth', () => {
       });
     });
 
-    it('사용자 정보가 없으면 미인증 상태로 설정한다', async () => {
+    it('사용자 정보가 없으면 미인증 상태(false)로 설정한다', async () => {
       const mockError = Object.assign(new Error('인증이 필요합니다'), {
         status: 401,
       });
 
-      vi.mocked(authApi.getCurrentUser).mockRejectedValue(mockError); // 👈 reject
+      vi.mocked(authApi.getCurrentUser).mockRejectedValue(mockError);
 
       const { result } = renderHook(
         () => {
@@ -153,7 +208,7 @@ describe('useRestoreAuth', () => {
   });
 
   describe('에러 케이스', () => {
-    it('네트워크 에러 발생 시 미인증 상태로 설정한다', async () => {
+    it('네트워크 에러 발생 시 미인증 상태(false)로 설정한다', async () => {
       const mockError = new Error('Network error');
       vi.mocked(authApi.getCurrentUser).mockRejectedValue(mockError);
 
@@ -177,6 +232,66 @@ describe('useRestoreAuth', () => {
         color: null,
         isAuthenticated: false,
       });
+    });
+  });
+
+  describe('상태 전환', () => {
+    it('unknown -> true로 올바르게 전환된다', async () => {
+      const mockUser: UserData = {
+        uuid: 'test-uuid',
+        name: '테스트',
+        color: 'green',
+      };
+
+      vi.mocked(authApi.getCurrentUser).mockResolvedValue({
+        status: 200,
+        message: 'success',
+        data: mockUser,
+        timestamp: '2025-11-12T15:30:00',
+      });
+
+      const { result } = renderHook(
+        () => {
+          const auth = useRestoreAuth();
+          const user = useAtomValue(userAtom);
+          return { auth, user };
+        },
+        { wrapper: createWrapper() },
+      );
+
+      // 초기 상태
+      expect(result.current.user.isAuthenticated).toBe('unknown');
+
+      // 로딩 완료 후
+      await waitFor(() => {
+        expect(result.current.auth.isLoading).toBe(false);
+      });
+
+      expect(result.current.user.isAuthenticated).toBe(true);
+    });
+
+    it('unknown -> false로 올바르게 전환된다', async () => {
+      const mockError = new Error('Unauthorized');
+      vi.mocked(authApi.getCurrentUser).mockRejectedValue(mockError);
+
+      const { result } = renderHook(
+        () => {
+          const auth = useRestoreAuth();
+          const user = useAtomValue(userAtom);
+          return { auth, user };
+        },
+        { wrapper: createWrapper() },
+      );
+
+      // 초기 상태
+      expect(result.current.user.isAuthenticated).toBe('unknown');
+
+      // 로딩 완료 후
+      await waitFor(() => {
+        expect(result.current.auth.isLoading).toBe(false);
+      });
+
+      expect(result.current.user.isAuthenticated).toBe(false);
     });
   });
 
