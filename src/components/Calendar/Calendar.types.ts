@@ -1,5 +1,6 @@
 export interface CalendarProps {
   uuid: string;
+  isAuthLoading: boolean;
   isOwner: boolean;
   ownerName: string;
   today?: string;

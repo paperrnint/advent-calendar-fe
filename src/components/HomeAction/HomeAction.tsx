@@ -9,6 +9,10 @@ import { userAtom } from '@/stores/authStore';
 export const HomeAction = () => {
   const { uuid, isAuthenticated } = useAtomValue(userAtom);
 
+  if (isAuthenticated === 'unknown') {
+    return <div className="h-28" />;
+  }
+
   if (isAuthenticated && uuid) {
     return (
       <div className="flex items-center justify-center pb-10">

@@ -17,6 +17,7 @@ interface Props {
 
 export const AdventCalendar = ({ owner, pageUuid }: Props) => {
   const curUser = useAtomValue(userAtom);
+  const isAuthLoading = curUser.isAuthenticated === 'unknown';
   const isOwner = curUser.isAuthenticated && curUser.uuid === pageUuid;
   const calendarActionProps = getCalendarActionProps(curUser, pageUuid);
 
@@ -30,6 +31,7 @@ export const AdventCalendar = ({ owner, pageUuid }: Props) => {
         <Calendar
           isDev={process.env.NODE_ENV === 'development'}
           uuid={pageUuid}
+          isAuthLoading={isAuthLoading}
           isOwner={isOwner}
           ownerName={owner.name}
         />

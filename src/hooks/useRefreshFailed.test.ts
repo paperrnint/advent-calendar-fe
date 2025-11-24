@@ -63,10 +63,10 @@ describe('useRefreshFailed', () => {
     });
   });
 
-  describe('로그아웃 상태에서 이벤트 발생', () => {
-    it('이미 로그아웃 상태면 토스트를 표시하지 않는다', async () => {
+  describe('unknown 상태에서 이벤트 발생', () => {
+    it('초기 로딩 중(unknown)에는 토스트를 표시하지 않는다', async () => {
       const wrapper = createWrapper();
-      const queryClearSpy = vi.spyOn(wrapper.queryClient, 'clear');
+      const queryClientSpy = vi.spyOn(wrapper.queryClient, 'clear');
 
       const { result } = renderHook(
         () => {
@@ -77,8 +77,55 @@ describe('useRefreshFailed', () => {
         { wrapper },
       );
 
-      // 초기 상태는 로그아웃 상태
-      expect(result.current.user.isAuthenticated).toBe(false);
+      // 초기 상태는 unknown
+      expect(result.current.user.isAuthenticated).toBe('unknown');
+
+      // 이벤트 발생
+      window.dispatchEvent(new CustomEvent('auth:refresh-failed'));
+
+      await waitFor(() => {
+        // 상태는 그대로 유지
+        expect(result.current.user).toEqual({
+          uuid: null,
+          name: null,
+          color: null,
+          isAuthenticated: 'unknown',
+        });
+      });
+
+      // 로그아웃 처리가 실행되지 않음
+      expect(queryClientSpy).not.toHaveBeenCalled();
+      expect(mockRouter.push).not.toHaveBeenCalled();
+      expect(toast.error).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('로그아웃 상태에서 이벤트 발생', () => {
+    it('이미 로그아웃 상태면 토스트를 표시하지 않는다', async () => {
+      const wrapper = createWrapper();
+      const queryClearSpy = vi.spyOn(wrapper.queryClient, 'clear');
+
+      const { result } = renderHook(
+        () => {
+          const setUser = useSetAtom(userAtom);
+          useRefreshFailed();
+          const user = useAtomValue(userAtom);
+          return { user, setUser };
+        },
+        { wrapper },
+      );
+
+      // 명시적으로 로그아웃 상태로 설정
+      result.current.setUser({
+        uuid: null,
+        name: null,
+        color: null,
+        isAuthenticated: false,
+      });
+
+      await waitFor(() => {
+        expect(result.current.user.isAuthenticated).toBe(false);
+      });
 
       // 이벤트 발생
       window.dispatchEvent(new CustomEvent('auth:refresh-failed'));
@@ -142,6 +189,50 @@ describe('useRefreshFailed', () => {
       await waitFor(() => {
         // 토스트가 다시 표시되지 않음
         expect(toast.error).not.toHaveBeenCalled();
+      });
+    });
+  });
+
+  describe('상태 전환 시나리오', () => {
+    it('unknown -> true -> false 순서로 전환될 때 올바르게 동작한다', async () => {
+      const wrapper = createWrapper();
+
+      const { result } = renderHook(
+        () => {
+          const setUser = useSetAtom(userAtom);
+          useRefreshFailed();
+          const user = useAtomValue(userAtom);
+          return { user, setUser };
+        },
+        { wrapper },
+      );
+
+      // 1. 초기 상태(unknown)에서 이벤트 발생 - 무시됨
+      expect(result.current.user.isAuthenticated).toBe('unknown');
+      window.dispatchEvent(new CustomEvent('auth:refresh-failed'));
+
+      await waitFor(() => {
+        expect(toast.error).not.toHaveBeenCalled();
+      });
+
+      // 2. 로그인 상태로 전환
+      result.current.setUser({
+        uuid: 'test-uuid',
+        name: '테스트',
+        color: 'green',
+        isAuthenticated: true,
+      });
+
+      await waitFor(() => {
+        expect(result.current.user.isAuthenticated).toBe(true);
+      });
+
+      // 3. 로그인 상태에서 이벤트 발생 - 로그아웃 처리됨
+      window.dispatchEvent(new CustomEvent('auth:refresh-failed'));
+
+      await waitFor(() => {
+        expect(result.current.user.isAuthenticated).toBe(false);
+        expect(toast.error).toHaveBeenCalledTimes(1);
       });
     });
   });

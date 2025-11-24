@@ -53,3 +53,16 @@ export const UnauthenticatedMode: Story = {
     },
   },
 };
+
+export const Loading: Story = {
+  args: {
+    isAuthenticated: 'unknown',
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: '로딩 중에는 클릭이 불가능합니다',
+      },
+    },
+  },
+};
