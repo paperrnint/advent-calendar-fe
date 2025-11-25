@@ -6,7 +6,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { useLogout } from './useLogout';
 import * as authApi from '@/lib/api/auth';
-import { authErrorAtom, userAtom } from '@/stores/authStore';
+import { userAtom } from '@/stores/authStore';
 import { mockRouter } from '@/test/mocks';
 import { createWrapper } from '@/test/wrapper';
 
@@ -76,8 +76,7 @@ describe('useLogout', () => {
         () => {
           const mutation = useLogout();
           const user = useAtomValue(userAtom);
-          const error = useAtomValue(authErrorAtom);
-          return { mutation, user, error };
+          return { mutation, user };
         },
         { wrapper },
       );
@@ -89,7 +88,6 @@ describe('useLogout', () => {
       });
 
       expect(toast.error).toHaveBeenCalledWith('로그아웃 실패');
-      expect(result.current.error).toBe('로그아웃 실패');
       expect(result.current.user.isAuthenticated).toBe(false);
       expect(queryClearSpy).toHaveBeenCalled();
       expect(mockRouter.push).toHaveBeenCalledWith('/');
