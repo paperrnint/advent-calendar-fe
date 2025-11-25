@@ -1,15 +1,23 @@
 'use client';
 
+import { useAtomValue } from 'jotai';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+import { toast } from 'sonner';
 
 import { Form } from '@/components/Form/Form';
 import { Palette } from '@/components/Palette/Palette';
 import { useBodyBackground } from '@/hooks/useBodyBackground';
 import { useNewForm } from '@/hooks/useNewForm';
 import { useRegisterUser } from '@/hooks/useRegisterUser';
+import { userAtom } from '@/stores/authStore';
 import { UserRegisterRequest } from '@/types/api';
 
 export default function NewPage() {
+  const router = useRouter();
+  const { uuid, isAuthenticated } = useAtomValue(userAtom);
+
   const {
     step,
     name,
@@ -26,6 +34,13 @@ export default function NewPage() {
 
   useBodyBackground('var(--background-beige)');
 
+  useEffect(() => {
+    if (isAuthenticated === true && !!uuid) {
+      toast.error('접근할 수 없는 페이지입니다.');
+      router.replace(`/${uuid}`);
+    }
+  }, [isAuthenticated, router, uuid]);
+
   const submit = () => {
     const userData = getUserData();
     if (!isNameValid || !isColorValid || userData.color === null) {
@@ -33,6 +48,10 @@ export default function NewPage() {
     }
     mutate(userData as UserRegisterRequest);
   };
+
+  if (isAuthenticated === 'unknown' || isAuthenticated === true) {
+    return <div />;
+  }
 
   return (
     <div className="bg-background-beige flex h-dvh w-full max-w-md flex-col px-4 pt-16">
