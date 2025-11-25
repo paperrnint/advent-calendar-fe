@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 
 import { AuthProvider } from '@/components/AuthProvider/AuthProvider';
+import { GoogleAnalytics } from '@/components/GoogleAnalytics/GoogleAnalytics';
 import { QueryProvider } from '@/components/QueryProvider/QueryProvider';
 import { Toaster } from '@/components/ui/sonner';
 import './globals.css';
@@ -38,6 +39,7 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className="flex h-dvh flex-col items-center">
+        <GoogleAnalytics />
         <QueryProvider>
           <AuthProvider>{children}</AuthProvider>
         </QueryProvider>
