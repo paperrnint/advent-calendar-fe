@@ -30,7 +30,3 @@ const initialState: UserState = {
 };
 
 export const userAtom = atom<UserState>(initialState);
-
-export const authLoadingAtom = atom<boolean>(false);
-
-export const authErrorAtom = atom<string | null>(null);

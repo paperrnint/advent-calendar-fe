@@ -4,19 +4,15 @@ import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 
 import { registerUser } from '@/lib/api/auth';
-import { authErrorAtom, authLoadingAtom, userAtom } from '@/stores/authStore';
+import { userAtom } from '@/stores/authStore';
 import { UserRegisterRequest } from '@/types/api';
 
 export const useRegisterUser = () => {
   const router = useRouter();
   const setUser = useSetAtom(userAtom);
-  const setLoading = useSetAtom(authLoadingAtom);
-  const setError = useSetAtom(authErrorAtom);
 
   return useMutation({
     mutationFn: (userData: UserRegisterRequest) => {
-      setLoading(true);
-      setError(null);
       return registerUser(userData);
     },
     onSuccess: (response, userData) => {
@@ -32,11 +28,7 @@ export const useRegisterUser = () => {
     },
     onError: (error: Error) => {
       console.error(error);
-      setError(error.message);
       toast.error(error.message || '회원가입 중 오류가 발생했어요');
-    },
-    onSettled: () => {
-      setLoading(false);
     },
   });
 };

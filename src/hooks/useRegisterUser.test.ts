@@ -6,7 +6,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { useRegisterUser } from './useRegisterUser';
 import * as authApi from '@/lib/api/auth';
-import { authErrorAtom, authLoadingAtom, userAtom } from '@/stores/authStore';
+import { userAtom } from '@/stores/authStore';
 import { mockRouter } from '@/test/mocks';
 import { createWrapper } from '@/test/wrapper';
 
@@ -37,9 +37,7 @@ describe('useRegisterUser', () => {
         () => {
           const mutation = useRegisterUser();
           const user = useAtomValue(userAtom);
-          const loading = useAtomValue(authLoadingAtom);
-          const error = useAtomValue(authErrorAtom);
-          return { mutation, user, loading, error };
+          return { mutation, user };
         },
         { wrapper: createWrapper() },
       );
@@ -53,7 +51,7 @@ describe('useRegisterUser', () => {
 
       // 최종 상태 확인
       await waitFor(() => {
-        expect(result.current.loading).toBe(false);
+        expect(result.current.mutation.isSuccess).toBe(true);
       });
 
       expect(authApi.registerUser).toHaveBeenCalledWith(userData);
@@ -65,38 +63,6 @@ describe('useRegisterUser', () => {
       });
       expect(mockRouter.push).toHaveBeenCalledWith('/test-uuid-123');
       expect(toast.success).toHaveBeenCalledWith('회원가입이 완료되었어요');
-      expect(result.current.error).toBeNull();
-    });
-
-    it('성공 시 authErrorAtom을 null로 초기화한다', async () => {
-      const mockResponse = {
-        status: 201,
-        message: 'success',
-        data: { uuid: 'test-uuid' },
-        timestamp: '2025-11-12T15:30:00',
-      };
-
-      vi.mocked(authApi.registerUser).mockResolvedValue(mockResponse);
-
-      const { result } = renderHook(
-        () => {
-          const mutation = useRegisterUser();
-          const error = useAtomValue(authErrorAtom);
-          return { mutation, error };
-        },
-        { wrapper: createWrapper() },
-      );
-
-      result.current.mutation.mutate({
-        name: '테스트',
-        color: 'green',
-      });
-
-      await waitFor(() => {
-        expect(result.current.mutation.isSuccess).toBe(true);
-      });
-
-      expect(result.current.error).toBeNull();
     });
 
     it('다양한 색상으로 회원가입할 수 있다', async () => {
@@ -145,8 +111,7 @@ describe('useRegisterUser', () => {
       const { result } = renderHook(
         () => {
           const mutation = useRegisterUser();
-          const error = useAtomValue(authErrorAtom);
-          return { mutation, error };
+          return { mutation };
         },
         { wrapper: createWrapper() },
       );
@@ -161,7 +126,6 @@ describe('useRegisterUser', () => {
       });
 
       expect(toast.error).toHaveBeenCalledWith('이미 존재하는 사용자입니다');
-      expect(result.current.error).toBe('이미 존재하는 사용자입니다');
       expect(consoleErrorSpy).toHaveBeenCalledWith(mockError);
 
       consoleErrorSpy.mockRestore();
@@ -226,8 +190,7 @@ describe('useRegisterUser', () => {
       const { result } = renderHook(
         () => {
           const mutation = useRegisterUser();
-          const error = useAtomValue(authErrorAtom);
-          return { mutation, error };
+          return { mutation };
         },
         { wrapper: createWrapper() },
       );
@@ -241,7 +204,6 @@ describe('useRegisterUser', () => {
         expect(result.current.mutation.isError).toBe(true);
       });
 
-      expect(result.current.error).toBe('잘못된 요청입니다');
       expect(toast.error).toHaveBeenCalledWith('잘못된 요청입니다');
 
       consoleErrorSpy.mockRestore();
@@ -258,8 +220,7 @@ describe('useRegisterUser', () => {
       const { result } = renderHook(
         () => {
           const mutation = useRegisterUser();
-          const error = useAtomValue(authErrorAtom);
-          return { mutation, error };
+          return { mutation };
         },
         { wrapper: createWrapper() },
       );
@@ -273,7 +234,7 @@ describe('useRegisterUser', () => {
         expect(result.current.mutation.isError).toBe(true);
       });
 
-      expect(result.current.error).toBe('이미 존재하는 사용자입니다');
+      expect(toast.error).toHaveBeenCalledWith('이미 존재하는 사용자입니다');
 
       consoleErrorSpy.mockRestore();
     });

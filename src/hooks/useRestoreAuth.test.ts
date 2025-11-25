@@ -4,7 +4,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { useRestoreAuth } from './useRestoreAuth';
 import * as authApi from '@/lib/api/auth';
-import { authLoadingAtom, userAtom } from '@/stores/authStore';
+import { userAtom } from '@/stores/authStore';
 import { createWrapper } from '@/test/wrapper';
 import { UserData } from '@/types/data';
 
@@ -53,8 +53,7 @@ describe('useRestoreAuth', () => {
         () => {
           const auth = useRestoreAuth();
           const user = useAtomValue(userAtom);
-          const loading = useAtomValue(authLoadingAtom);
-          return { auth, user, loading };
+          return { auth, user };
         },
         { wrapper: createWrapper() },
       );
@@ -93,8 +92,7 @@ describe('useRestoreAuth', () => {
       const { result } = renderHook(
         () => {
           const auth = useRestoreAuth();
-          const loading = useAtomValue(authLoadingAtom);
-          return { auth, loading };
+          return { auth };
         },
         { wrapper: createWrapper() },
       );
