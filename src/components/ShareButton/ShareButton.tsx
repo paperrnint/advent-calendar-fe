@@ -27,7 +27,6 @@ export const ShareButton = () => {
   const share = async () => {
     const shareData = {
       title: '2025 어드벤트 캘린더',
-      text: '공유하고 크리스마스 편지를 받아보세요 💌',
       url: currentUrl,
     };
 
