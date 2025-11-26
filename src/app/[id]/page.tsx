@@ -20,11 +20,21 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
         title: `${userData.name}님의 어드벤트 캘린더 💌`,
         description: `${userData.name}님에게 크리스마스 편지를 보내보세요`,
         url: `${siteUrl}/${id}`,
+        images: [
+          {
+            url: '/images/og-image.png',
+            width: 1200,
+            height: 630,
+            alt: '갑차기스러운데 나한테 편지 써줘도 돼?',
+            type: 'image/png',
+          },
+        ],
       },
       twitter: {
         card: 'summary_large_image',
         title: `${userData.name}님의 어드벤트 캘린더 💌`,
         description: `${userData.name}님에게 크리스마스 편지를 보내보세요`,
+        images: ['/images/og-image.png'],
       },
       alternates: {
         canonical: `${siteUrl}/${id}`,
