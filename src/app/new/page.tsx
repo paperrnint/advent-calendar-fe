@@ -35,11 +35,11 @@ export default function NewPage() {
   useBodyBackground('var(--background-beige)');
 
   useEffect(() => {
-    if (isAuthenticated === true && !!uuid) {
+    if (!isPending && isAuthenticated === true && !!uuid) {
       toast.error('접근할 수 없는 페이지입니다.');
       router.replace(`/${uuid}`);
     }
-  }, [isAuthenticated, router, uuid]);
+  }, [isAuthenticated, isPending, router, uuid]);
 
   const submit = () => {
     const userData = getUserData();
