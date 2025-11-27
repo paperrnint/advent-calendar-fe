@@ -52,6 +52,7 @@ describe('useLogout', () => {
       expect(authApi.logout).toHaveBeenCalled();
       expect(result.current.user).toEqual({
         uuid: null,
+        email: null,
         name: null,
         color: null,
         isAuthenticated: false,

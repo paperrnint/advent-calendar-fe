@@ -18,6 +18,7 @@ export const useLogout = () => {
     onSuccess: () => {
       setUser({
         uuid: null,
+        email: null,
         name: null,
         color: null,
         isAuthenticated: false,
@@ -33,6 +34,7 @@ export const useLogout = () => {
 
       setUser({
         uuid: null,
+        email: null,
         name: null,
         color: null,
         isAuthenticated: false,

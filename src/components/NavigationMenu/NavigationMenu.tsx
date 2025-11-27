@@ -1,3 +1,4 @@
+import { DropdownMenuLabel } from '@radix-ui/react-dropdown-menu';
 import { useAtomValue } from 'jotai';
 import { Gift, LogIn, LogOut, Trash2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
@@ -22,6 +23,12 @@ const AuthMenuItems = () => {
 
   return (
     <>
+      {user.email && (
+        <DropdownMenuLabel className="truncate px-2 py-1 text-xs text-neutral-400">
+          {user.email}
+        </DropdownMenuLabel>
+      )}
+
       <DropdownMenuItem onSelect={() => router.push(`/${user.uuid}`)} disabled={isPending}>
         <Gift />
         <span>내 어드벤트 캘린더</span>
@@ -31,7 +38,6 @@ const AuthMenuItems = () => {
         <LogOut />
         <span>로그아웃</span>
       </DropdownMenuItem>
-      {/* <DropdownMenuItem variant="destructive" disabled={isPending}> */}
       <DropdownMenuItem variant="destructive" disabled>
         <Trash2 />
         <span>탈퇴하기</span>

@@ -15,11 +15,12 @@ export const useRegisterUser = () => {
     mutationFn: (userData: UserRegisterRequest) => {
       return registerUser(userData);
     },
-    onSuccess: (response, userData) => {
+    onSuccess: (response) => {
       setUser({
         uuid: response.data.uuid,
-        name: userData.name,
-        color: userData.color,
+        email: response.data.email,
+        name: response.data.name,
+        color: response.data.color,
         isAuthenticated: true,
       });
 

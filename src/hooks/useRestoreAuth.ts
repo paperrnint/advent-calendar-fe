@@ -31,6 +31,7 @@ export const useRestoreAuth = () => {
       if (data) {
         setUser({
           uuid: data.uuid,
+          email: data.email,
           name: data.name,
           color: data.color,
           isAuthenticated: true,
@@ -38,6 +39,7 @@ export const useRestoreAuth = () => {
       } else {
         setUser({
           uuid: null,
+          email: null,
           name: null,
           color: null,
           isAuthenticated: false,

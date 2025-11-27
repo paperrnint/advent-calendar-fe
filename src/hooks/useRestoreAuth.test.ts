@@ -27,6 +27,7 @@ describe('useRestoreAuth', () => {
 
       expect(result.current.user).toEqual({
         uuid: null,
+        email: null,
         name: null,
         color: null,
         isAuthenticated: 'unknown',
@@ -38,7 +39,8 @@ describe('useRestoreAuth', () => {
     it('로그인된 사용자 정보를 불러오고 상태를 true로 변경한다', async () => {
       const mockUser: UserData = {
         uuid: 'test-uuid',
-        name: '테스트유저',
+        email: 'test@example.com',
+        name: '테스트 유저',
         color: 'green',
       };
 
@@ -65,7 +67,8 @@ describe('useRestoreAuth', () => {
       expect(result.current.auth.isAuthenticated).toBe(true);
       expect(result.current.user).toEqual({
         uuid: 'test-uuid',
-        name: '테스트유저',
+        email: 'test@example.com',
+        name: '테스트 유저',
         color: 'green',
         isAuthenticated: true,
       });
@@ -81,7 +84,7 @@ describe('useRestoreAuth', () => {
                 resolve({
                   status: 200,
                   message: 'success',
-                  data: { uuid: 'test', name: 'test', color: 'green' },
+                  data: { uuid: 'test', email: 'test@example.com', name: 'test', color: 'green' },
                   timestamp: '2025-11-12T15:30:00',
                 }),
               100,
@@ -111,6 +114,7 @@ describe('useRestoreAuth', () => {
     it('로딩 완료 후에만 상태가 업데이트된다', async () => {
       const mockUser: UserData = {
         uuid: 'test-uuid',
+        email: 'test@example.com',
         name: '테스트',
         color: 'green',
       };
@@ -169,6 +173,7 @@ describe('useRestoreAuth', () => {
       expect(result.current.auth.isAuthenticated).toBe(false);
       expect(result.current.user).toEqual({
         uuid: null,
+        email: null,
         name: null,
         color: null,
         isAuthenticated: false,
@@ -198,6 +203,7 @@ describe('useRestoreAuth', () => {
       expect(result.current.auth.isAuthenticated).toBe(false);
       expect(result.current.user).toEqual({
         uuid: null,
+        email: null,
         name: null,
         color: null,
         isAuthenticated: false,
@@ -226,6 +232,7 @@ describe('useRestoreAuth', () => {
       expect(result.current.auth.isAuthenticated).toBe(false);
       expect(result.current.user).toEqual({
         uuid: null,
+        email: null,
         name: null,
         color: null,
         isAuthenticated: false,
@@ -237,6 +244,7 @@ describe('useRestoreAuth', () => {
     it('unknown -> true로 올바르게 전환된다', async () => {
       const mockUser: UserData = {
         uuid: 'test-uuid',
+        email: 'test@example.com',
         name: '테스트',
         color: 'green',
       };
@@ -311,6 +319,7 @@ describe('useRestoreAuth', () => {
     it('staleTime이 Infinity로 설정되어 있다', async () => {
       const mockUser: UserData = {
         uuid: 'test-uuid',
+        email: 'test@example.com',
         name: '테스트',
         color: 'green',
       };
