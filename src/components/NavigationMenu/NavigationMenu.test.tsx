@@ -37,6 +37,8 @@ describe('NavigationMenu', () => {
   });
 
   describe('AuthMenuItems', () => {
+    const mockOnDeleteClick = vi.fn();
+
     beforeEach(async () => {
       const { useAtomValue } = await import('jotai');
       vi.mocked(useAtomValue).mockReturnValue({
@@ -54,6 +56,10 @@ describe('NavigationMenu', () => {
       });
     });
 
+    afterEach(() => {
+      mockOnDeleteClick.mockClear();
+    });
+
     it('메뉴 아이템들이 렌더링된다', async () => {
       const user = userEvent.setup();
 
@@ -61,7 +67,7 @@ describe('NavigationMenu', () => {
         <DropdownMenu>
           <DropdownMenuTrigger>메뉴</DropdownMenuTrigger>
           <NavigationMenu.Content>
-            <NavigationMenu.AuthItems />
+            <NavigationMenu.AuthItems onDeleteClick={mockOnDeleteClick} />
           </NavigationMenu.Content>
         </DropdownMenu>,
         { wrapper: createWrapper() },
@@ -81,7 +87,7 @@ describe('NavigationMenu', () => {
         <DropdownMenu>
           <DropdownMenuTrigger>메뉴</DropdownMenuTrigger>
           <NavigationMenu.Content>
-            <NavigationMenu.AuthItems />
+            <NavigationMenu.AuthItems onDeleteClick={mockOnDeleteClick} />
           </NavigationMenu.Content>
         </DropdownMenu>,
         { wrapper: createWrapper() },
@@ -100,7 +106,7 @@ describe('NavigationMenu', () => {
         <DropdownMenu>
           <DropdownMenuTrigger>메뉴</DropdownMenuTrigger>
           <NavigationMenu.Content>
-            <NavigationMenu.AuthItems />
+            <NavigationMenu.AuthItems onDeleteClick={mockOnDeleteClick} />
           </NavigationMenu.Content>
         </DropdownMenu>,
         { wrapper: createWrapper() },
@@ -110,6 +116,25 @@ describe('NavigationMenu', () => {
       await user.click(screen.getByText('로그아웃'));
 
       expect(mockLogout).toHaveBeenCalled();
+    });
+
+    it('탈퇴하기 클릭 시 onDeleteClick을 호출한다', async () => {
+      const user = userEvent.setup();
+
+      render(
+        <DropdownMenu>
+          <DropdownMenuTrigger>메뉴</DropdownMenuTrigger>
+          <NavigationMenu.Content>
+            <NavigationMenu.AuthItems onDeleteClick={mockOnDeleteClick} />
+          </NavigationMenu.Content>
+        </DropdownMenu>,
+        { wrapper: createWrapper() },
+      );
+
+      await user.click(screen.getByRole('button', { name: /메뉴/i }));
+      await user.click(screen.getByText('탈퇴하기'));
+
+      expect(mockOnDeleteClick).toHaveBeenCalled();
     });
 
     it('isPending이 true일 때 메뉴 아이템들이 disabled 상태다', async () => {
@@ -125,7 +150,7 @@ describe('NavigationMenu', () => {
         <DropdownMenu>
           <DropdownMenuTrigger>메뉴</DropdownMenuTrigger>
           <NavigationMenu.Content>
-            <NavigationMenu.AuthItems />
+            <NavigationMenu.AuthItems onDeleteClick={mockOnDeleteClick} />
           </NavigationMenu.Content>
         </DropdownMenu>,
         { wrapper: createWrapper() },
@@ -135,10 +160,12 @@ describe('NavigationMenu', () => {
 
       const calendarItem = screen.getByText('내 어드벤트 캘린더').closest('[role="menuitem"]');
       const logoutItem = screen.getByText('로그아웃').closest('[role="menuitem"]');
+      const deleteItem = screen.getByText('탈퇴하기').closest('[role="menuitem"]');
 
       // disabled 속성 확인
       expect(calendarItem).toHaveAttribute('data-disabled');
       expect(logoutItem).toHaveAttribute('data-disabled');
+      expect(deleteItem).toHaveAttribute('data-disabled');
     });
   });
 
