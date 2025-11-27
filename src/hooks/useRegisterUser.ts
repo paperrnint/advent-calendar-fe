@@ -24,8 +24,11 @@ export const useRegisterUser = () => {
         isAuthenticated: true,
       });
 
-      router.push(`/${response.data.uuid}`);
       toast.success('회원가입이 완료되었어요');
+
+      setTimeout(() => {
+        router.push(`/${response.data.uuid}`);
+      }, 100);
     },
     onError: (error: Error) => {
       console.error(error);

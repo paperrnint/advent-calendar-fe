@@ -66,8 +66,14 @@ describe('useRegisterUser', () => {
         color: 'green',
         isAuthenticated: true,
       });
-      expect(mockRouter.push).toHaveBeenCalledWith('/test-uuid-123');
       expect(toast.success).toHaveBeenCalledWith('회원가입이 완료되었어요');
+
+      await waitFor(
+        () => {
+          expect(mockRouter.push).toHaveBeenCalledWith('/test-uuid-123');
+        },
+        { timeout: 200 },
+      );
     });
 
     it('다양한 색상으로 회원가입할 수 있다', async () => {
