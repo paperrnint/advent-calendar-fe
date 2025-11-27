@@ -1,10 +1,14 @@
-import { DropdownMenuLabel } from '@radix-ui/react-dropdown-menu';
 import { useAtomValue } from 'jotai';
 import { Gift, LogIn, LogOut, Trash2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 
-import { DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator } from '../ui/dropdown-menu';
+import {
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuLabel,
+} from '../ui/dropdown-menu';
 import { useLogout } from '@/hooks/useLogout';
 import { userAtom } from '@/stores/authStore';
 
@@ -16,7 +20,7 @@ const NavigationMenuContent = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-const AuthMenuItems = () => {
+const AuthMenuItems = ({ onDeleteClick }: { onDeleteClick: () => void }) => {
   const router = useRouter();
   const user = useAtomValue(userAtom);
   const { mutate: logout, isPending } = useLogout();
@@ -38,7 +42,7 @@ const AuthMenuItems = () => {
         <LogOut />
         <span>로그아웃</span>
       </DropdownMenuItem>
-      <DropdownMenuItem variant="destructive" disabled>
+      <DropdownMenuItem variant="destructive" onSelect={onDeleteClick} disabled={isPending}>
         <Trash2 />
         <span>탈퇴하기</span>
       </DropdownMenuItem>

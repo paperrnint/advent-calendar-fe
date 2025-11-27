@@ -23,6 +23,7 @@ export const mockAuthApi = {
   getCurrentUser: vi.fn(),
   login: vi.fn(),
   registerUser: vi.fn(),
+  deleteUser: vi.fn(),
 };
 
 export const mockLetterApi = {

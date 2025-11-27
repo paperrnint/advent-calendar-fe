@@ -39,3 +39,13 @@ export const logout = async () => {
     url: '/api/auth/logout',
   });
 };
+
+/**
+ * 계정 삭제 API
+ */
+export const deleteUser = async () => {
+  return await fetcher<ApiResponse<null>>({
+    method: 'DELETE',
+    url: '/api/auth/users',
+  });
+};

@@ -78,7 +78,7 @@ export const AuthenticatedMenu: Omit<Story, 'args'> = {
               </button>
             </DropdownMenuTrigger>
             <NavigationMenu.Content>
-              <NavigationMenu.AuthItems />
+              <NavigationMenu.AuthItems onDeleteClick={() => console.log('Delete clicked')} />
             </NavigationMenu.Content>
           </DropdownMenu>
         </HydrateAtoms>
@@ -154,7 +154,7 @@ export const LongEmailMenu: Omit<Story, 'args'> = {
               </button>
             </DropdownMenuTrigger>
             <NavigationMenu.Content>
-              <NavigationMenu.AuthItems />
+              <NavigationMenu.AuthItems onDeleteClick={() => console.log('Delete clicked')} />
             </NavigationMenu.Content>
           </DropdownMenu>
         </HydrateAtoms>
