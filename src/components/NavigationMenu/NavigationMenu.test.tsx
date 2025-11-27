@@ -41,7 +41,10 @@ describe('NavigationMenu', () => {
       const { useAtomValue } = await import('jotai');
       vi.mocked(useAtomValue).mockReturnValue({
         uuid: 'test-uuid-123',
+        email: 'test@example.com',
         name: '테스트 유저',
+        color: 'green',
+        isAuthenticated: true,
       });
 
       // @ts-expect-error - 테스트에 필요한 필드만 mock
