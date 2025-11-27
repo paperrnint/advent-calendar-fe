@@ -24,7 +24,11 @@ export const NavigationBar = ({ isAuthenticated = 'unknown' }: Props) => {
             </button>
           </DropdownMenuTrigger>
           <NavigationMenu.Content>
-            {isAuthenticated ? <NavigationMenu.AuthItems /> : <NavigationMenu.UnauthItems />}
+            {isAuthenticated === true ? (
+              <NavigationMenu.AuthItems />
+            ) : (
+              <NavigationMenu.UnauthItems />
+            )}
           </NavigationMenu.Content>
         </DropdownMenu>
       </div>

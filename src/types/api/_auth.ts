@@ -7,10 +7,14 @@ export type UserRegisterRequest = {
 
 export type UserRegisterResponse = {
   uuid: string;
+  email: string;
+  name: string;
+  color: RibbonColor;
 };
 
 export type CurrentUserResponse = {
+  uuid: string;
+  email: string;
   name: string;
   color: RibbonColor;
-  uuid: string;
 };

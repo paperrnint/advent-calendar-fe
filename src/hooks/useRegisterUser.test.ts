@@ -5,6 +5,7 @@ import { toast } from 'sonner';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { useRegisterUser } from './useRegisterUser';
+import { RibbonColor } from '@/constants';
 import * as authApi from '@/lib/api/auth';
 import { userAtom } from '@/stores/authStore';
 import { mockRouter } from '@/test/mocks';
@@ -27,6 +28,9 @@ describe('useRegisterUser', () => {
         message: 'success',
         data: {
           uuid: 'test-uuid-123',
+          email: 'test@example.com',
+          name: '테스트 유저',
+          color: 'green' as RibbonColor,
         },
         timestamp: '2025-11-12T15:30:00',
       };
@@ -43,7 +47,7 @@ describe('useRegisterUser', () => {
       );
 
       const userData = {
-        name: '테스트유저',
+        name: '테스트 유저',
         color: 'green' as const,
       };
 
@@ -57,7 +61,8 @@ describe('useRegisterUser', () => {
       expect(authApi.registerUser).toHaveBeenCalledWith(userData);
       expect(result.current.user).toEqual({
         uuid: 'test-uuid-123',
-        name: '테스트유저',
+        email: 'test@example.com',
+        name: '테스트 유저',
         color: 'green',
         isAuthenticated: true,
       });
@@ -74,7 +79,12 @@ describe('useRegisterUser', () => {
         const mockResponse = {
           status: 201,
           message: 'success',
-          data: { uuid: `uuid-${color}` },
+          data: {
+            uuid: `uuid-${color}`,
+            email: 'test@example.com',
+            name: '테스트',
+            color: color,
+          },
           timestamp: '2025-11-12T15:30:00',
         };
 
@@ -253,7 +263,12 @@ describe('useRegisterUser', () => {
       const mockResponse = {
         status: 201,
         message: 'success',
-        data: { uuid: 'test-uuid' },
+        data: {
+          uuid: 'test-uuid',
+          email: 'test@example.com',
+          name: '테스트',
+          color: 'green' as RibbonColor,
+        },
         timestamp: '2025-11-12T15:30:00',
       };
 
