@@ -36,6 +36,7 @@ describe('useRefreshFailed', () => {
       // 먼저 로그인 상태로 설정
       result.current.setUser({
         uuid: 'test-uuid',
+        email: 'test@example.com',
         name: '테스트',
         color: 'green',
         isAuthenticated: true,
@@ -51,6 +52,7 @@ describe('useRefreshFailed', () => {
       await waitFor(() => {
         expect(result.current.user).toEqual({
           uuid: null,
+          email: null,
           name: null,
           color: null,
           isAuthenticated: false,
@@ -87,6 +89,7 @@ describe('useRefreshFailed', () => {
         // 상태는 그대로 유지
         expect(result.current.user).toEqual({
           uuid: null,
+          email: null,
           name: null,
           color: null,
           isAuthenticated: 'unknown',
@@ -118,6 +121,7 @@ describe('useRefreshFailed', () => {
       // 명시적으로 로그아웃 상태로 설정
       result.current.setUser({
         uuid: null,
+        email: null,
         name: null,
         color: null,
         isAuthenticated: false,
@@ -134,6 +138,7 @@ describe('useRefreshFailed', () => {
         // 상태는 그대로 유지
         expect(result.current.user).toEqual({
           uuid: null,
+          email: null,
           name: null,
           color: null,
           isAuthenticated: false,
@@ -162,6 +167,7 @@ describe('useRefreshFailed', () => {
       // 먼저 로그인 상태로 설정
       result.current.setUser({
         uuid: 'test-uuid',
+        email: 'test@example.com',
         name: '테스트',
         color: 'green',
         isAuthenticated: true,
@@ -218,6 +224,7 @@ describe('useRefreshFailed', () => {
       // 2. 로그인 상태로 전환
       result.current.setUser({
         uuid: 'test-uuid',
+        email: 'test@example.com',
         name: '테스트',
         color: 'green',
         isAuthenticated: true,

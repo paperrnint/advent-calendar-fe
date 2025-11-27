@@ -8,6 +8,7 @@ export type LetterData = {
 
 export type UserData = {
   uuid: string;
+  email: string;
   name: string;
   color: RibbonColor;
 };

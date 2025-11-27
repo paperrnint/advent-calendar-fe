@@ -32,6 +32,7 @@ export const useRefreshFailed = () => {
       if (prevAuthRef.current === true) {
         setUser({
           uuid: null,
+          email: null,
           name: null,
           color: null,
           isAuthenticated: false,
