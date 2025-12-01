@@ -1,7 +1,7 @@
 'use client';
 
 import dayjs from 'dayjs';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState, useSyncExternalStore } from 'react';
 import { toast } from 'sonner';
 
 import { CALENDAR_INFO_MESSAGES } from './Calendar.constants';
@@ -21,7 +21,7 @@ export const Calendar = ({
   isAuthLoading,
   isOwner,
   ownerName,
-  today = dayjs().format('YYYY-MM-DD'),
+  today: todayProp,
   isDev = false,
 }: CalendarProps) => {
   const [openDay, setOpenDay] = useState<number | null>(null);
@@ -36,7 +36,13 @@ export const Calendar = ({
     day: openDay || 1,
     enabled: isOwner && openDay !== null,
   });
+  const isMounted = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false,
+  );
 
+  const today = isMounted ? (todayProp ?? dayjs().format('YYYY-MM-DD')) : '';
   const letterCounts = countData?.data.counts || {};
   const messages = isOwner ? CALENDAR_INFO_MESSAGES.owner : CALENDAR_INFO_MESSAGES.guest;
   const days = useMemo(() => generateCalendarDays(), []);

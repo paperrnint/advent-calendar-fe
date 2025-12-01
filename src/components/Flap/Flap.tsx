@@ -4,7 +4,7 @@ interface Props extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'dis
 }
 
 export const Flap = ({ children, disabled = false, ...props }: Props) => {
-  const btnStyle = disabled ? 'opacity-40' : 'cursor-pointer';
+  const btnStyle = disabled ? 'opacity-60' : 'cursor-pointer';
 
   return (
     <button

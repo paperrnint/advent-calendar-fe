@@ -20,6 +20,10 @@ export const isDayDisabled = (
     return false;
   }
 
+  if (!today) {
+    return true;
+  }
+
   const isDateFuture = isBefore(date, today);
   return isOwner ? isDateFuture : !isDateFuture;
 };
