@@ -35,6 +35,9 @@ importers:
       dayjs:
         specifier: ^1.11.18
         version: 1.11.19
+      html-entities:
+        specifier: ^2.6.0
+        version: 2.6.0
       jotai:
         specifier: ^2.15.1
         version: 2.15.1(@babel/core@7.28.5)(@babel/template@7.27.2)(@types/react@19.2.5)(react@19.1.0)
