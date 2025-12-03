@@ -2,6 +2,7 @@ import { Loader2, LucideX } from 'lucide-react';
 import { useState } from 'react';
 
 import { Letter } from '../Letter/Letter';
+import { MAX_LETTER_CONTENT_LENGTH, MAX_LETTER_FROM_LENGTH } from '@/constants';
 import { useWriteLetter } from '@/hooks/useWriteLetter';
 
 interface Props {
@@ -19,6 +20,20 @@ export const WriteLetter = ({ to, day, uuid, onClose, onSuccess }: Props) => {
 
   const isValid = content.trim().length > 0;
 
+  const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const newValue = e.target.value;
+    if (newValue.length <= MAX_LETTER_CONTENT_LENGTH) {
+      setContent(newValue);
+    }
+  };
+
+  const handleFromChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value;
+    if (newValue.length <= MAX_LETTER_FROM_LENGTH) {
+      setFrom(newValue);
+    }
+  };
+
   const sendLetter = () => {
     if (!isValid) {
       return;
@@ -34,8 +49,8 @@ export const WriteLetter = ({ to, day, uuid, onClose, onSuccess }: Props) => {
   return (
     <Letter.Container>
       <p className="text-lg">To. {to}</p>
-      <Letter.Textarea rows={5} value={content} onChange={(e) => setContent(e.target.value)} />
-      <Letter.FooterInput value={from} onChange={(e) => setFrom(e.target.value)} />
+      <Letter.Textarea rows={5} value={content} onChange={handleContentChange} />
+      <Letter.FooterInput value={from} onChange={handleFromChange} />
 
       <button
         className="absolute top-2 right-2 cursor-pointer p-2 text-neutral-200"
