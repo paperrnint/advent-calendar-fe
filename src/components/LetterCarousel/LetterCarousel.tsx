@@ -1,7 +1,7 @@
 'use client';
 
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 import { Letter } from '../Letter/Letter';
 import { ShareButton } from '../ShareButton/ShareButton';
@@ -14,6 +14,7 @@ interface Props {
 
 export const LetterCarousel = ({ letters = [], isLoading }: Props) => {
   const [curIndex, setCurIndex] = useState(0);
+  const letterRef = useRef<HTMLDivElement>(null);
 
   const maxIndex = letters.length - 1;
   const curLetter = letters[curIndex];
@@ -55,9 +56,9 @@ export const LetterCarousel = ({ letters = [], isLoading }: Props) => {
   return (
     <div className="relative">
       {/* current letter */}
-      <Letter.Container>
+      <Letter.Container ref={letterRef}>
         <Letter.Content fixedHeight>{curLetter.content}</Letter.Content>
-        <Letter.Footer from={curLetter.from} date={curLetter.date} />
+        <Letter.Footer from={curLetter.from} date={curLetter.date} letterRef={letterRef} />
       </Letter.Container>
 
       {/* navigation */}
