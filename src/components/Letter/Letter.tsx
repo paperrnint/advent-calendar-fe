@@ -1,3 +1,7 @@
+import { forwardRef } from 'react';
+
+import { DownloadButton } from '../DownloadButton/DownloadButton';
+
 interface Props {
   children: React.ReactNode;
 }
@@ -15,6 +19,7 @@ interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement
 interface FooterProps {
   from: string;
   date: string;
+  letterRef?: React.RefObject<HTMLDivElement | null>;
 }
 
 interface FooterInputProps {
@@ -22,20 +27,25 @@ interface FooterInputProps {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const LetterContainer = ({ children }: Props) => {
+const LetterContainer = forwardRef<HTMLDivElement, Props>(({ children }, ref) => {
   return (
-    <div className="font-handwrite relative w-full rounded-2xl border border-neutral-200 bg-white p-4">
+    <div
+      ref={ref}
+      className="font-handwrite relative w-full rounded-2xl border border-neutral-200 bg-white p-4"
+    >
       <div className="flex h-full flex-col justify-between gap-2">{children}</div>
     </div>
   );
-};
+});
+
+LetterContainer.displayName = 'LetterContainer';
 
 const LetterTextarea = ({ value, onChange, ...props }: TextareaProps) => {
   return (
     <textarea
       value={value}
       onChange={onChange}
-      className="dotted-lines-bg w-full resize-none bg-transparent text-justify text-lg leading-9 outline-none"
+      className="dotted-lines-bg w-full resize-none bg-transparent text-justify text-lg leading-9 wrap-break-word outline-none"
       {...props}
     />
   );
@@ -44,18 +54,24 @@ const LetterTextarea = ({ value, onChange, ...props }: TextareaProps) => {
 const LetterContent = ({ children, fixedHeight }: ContentProps) => {
   return (
     <div className={`max-h-90 overflow-auto ${fixedHeight ? 'min-h-90' : ''}`}>
-      <p className={`dotted-lines-bg text-justify text-lg leading-9 whitespace-pre-line`}>
+      <p
+        className={`dotted-lines-bg text-justify text-lg leading-9 wrap-break-word whitespace-pre-line`}
+      >
         {children}
       </p>
     </div>
   );
 };
 
-const LetterFooter = ({ from, date }: FooterProps) => {
+const LetterFooter = ({ from, date, letterRef }: FooterProps) => {
   return (
-    <div className="flex items-center justify-end gap-2 text-neutral-600">
-      <p>{date},</p>
-      <p>{from} 씀</p>
+    <div className="flex items-end gap-2">
+      {letterRef && <DownloadButton from={from} date={date} letterRef={letterRef} />}
+      <div className="flex flex-1 items-center justify-end gap-2 text-neutral-600">
+        <p>
+          {date}, {from} 씀
+        </p>
+      </div>
     </div>
   );
 };
